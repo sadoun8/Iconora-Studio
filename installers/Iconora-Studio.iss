@@ -18,7 +18,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Files]
 ; Application files (one-dir build output)
-Source: "{#SourcePath}\dist\Iconora Studio\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs; Check: IsDistPresent
+Source: "{#SourcePath}\..\dist\Iconora Studio\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs; Check: IsDistPresent
 
 ; Optional Visual C++ Redistributable (place under installers/third_party if you want it bundled)
 Source: "{#SourcePath}\installers\third_party\vcredist_x64.exe"; DestDir: "{tmp}"; Flags: dontcopy; Check: FileExistsExpand('{#SourcePath}\\installers\\third_party\\vcredist_x64.exe')
