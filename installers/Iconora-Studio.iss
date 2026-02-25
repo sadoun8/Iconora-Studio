@@ -42,7 +42,7 @@ Filename: "{app}\Iconora Studio.exe"; Description: "Launch Iconora Studio"; Flag
 [Code]
 function IsDistPresent(): Boolean;
 begin
-  Result := DirExists(ExpandConstant('{#SourcePath}\\dist\\Iconora Studio'));
+  Result := DirExists(ExpandConstant('{#SourcePath}\\..\\dist\\Iconora Studio'));
 end;
 
 function FileExistsExpand(const S: string): Boolean;
