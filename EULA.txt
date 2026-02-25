@@ -1,0 +1,38 @@
+END USER LICENSE AGREEMENT (EULA)
+
+Last updated: February 25, 2026
+
+NOTICE: THIS IS A LEGAL AGREEMENT BETWEEN YOU ("LICENSEE") AND ICONORA ("LICENSOR").
+BY INSTALLING OR USING ICONORA STUDIO, YOU AGREE TO BE BOUND BY THIS EULA.
+
+1. License Grant
+Licensor grants you a non-exclusive, non-transferable license to use the software in accordance with the edition purchased (Demo, Pro, Enterprise). One license per person unless otherwise agreed in writing.
+
+2. Permitted Use
+You may use the software to create designs for personal or commercial purposes in accordance with the edition limitations.
+
+3. Restrictions
+You may not, and may not allow others to: reverse engineer, decompile, disassemble, rent, lease, sublicense, or distribute the software; remove license mechanisms; or use the software to provide competing services.
+
+4. Ownership
+All intellectual property rights remain with Licensor. This EULA does not convey title to the software.
+
+5. Warranty Disclaimer
+THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. LICENSOR DISCLAIMS ALL WARRANTIES, WHETHER EXPRESS OR IMPLIED.
+
+6. Limitation of Liability
+IN NO EVENT SHALL LICENSOR BE LIABLE FOR ANY INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING FROM USE OF THE SOFTWARE.
+
+7. Refunds
+Pro and Enterprise licenses include a 30-day money-back guarantee. Refunds granted at Licensor's discretion if requested within 30 days of purchase.
+
+8. Termination
+This EULA is effective until terminated. Licensor may terminate if you breach these terms. Upon termination, delete all copies of the software.
+
+9. Governing Law
+This agreement is governed by the laws of the jurisdiction of the Licensor (see contact email for details).
+
+10. Contact
+For questions: business@iconora.com
+
+----

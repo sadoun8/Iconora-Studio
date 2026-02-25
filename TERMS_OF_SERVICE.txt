@@ -1,0 +1,32 @@
+Iconora Studio - Terms of Service
+
+Effective date: February 25, 2026
+
+1. Acceptance of Terms
+By using Iconora Studio, you agree to these Terms of Service and the EULA.
+
+2. Use of Service
+You agree to use Iconora Studio only for lawful purposes and in accordance with the license edition purchased.
+
+3. Account & Payment
+For paid editions, payment is processed by the chosen payment provider (Gumroad, Stripe, FastSpring). You are responsible for any fees or taxes.
+
+4. Refund Policy
+Pro and Enterprise licenses are eligible for a 30-day money-back guarantee. Refund requests should be sent to business@iconora.com with order information.
+
+5. Intellectual Property
+All content and software remain the property of Iconora. Users own the designs they create.
+
+6. Support
+Support levels vary by edition (see product page). Response times: Pro (24-48h), Enterprise (1-hour priority).
+
+7. Changes to Terms
+Iconora may modify these Terms; users will be notified by email or within app notifications.
+
+8. Termination
+Iconora may suspend access for violation of Terms. Remaining license rights are subject to termination.
+
+9. Contact
+business@iconora.com
+
+----

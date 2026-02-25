@@ -1,0 +1,18 @@
+{
+    "project_type": "icon",
+    "type": "icon",
+    "source": "",
+    "sizes": [
+        16,
+        32,
+        64,
+        128,
+        256
+    ],
+    "metadata": {
+        "name": "Template_icon",
+        "created": "2026-02-25T22:51:25.285523",
+        "modified": "2026-02-25T22:51:25.285540",
+        "version": "1.0"
+    }
+}

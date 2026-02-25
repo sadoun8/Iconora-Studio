@@ -1,0 +1,32 @@
+Iconora Studio - Privacy Policy
+
+Last updated: February 25, 2026
+
+1. Introduction
+Iconora Studio is committed to protecting your privacy. This Privacy Policy explains what information we collect and how we use it.
+
+2. Information We Collect
+- No telemetry by default. All core features work offline.
+- Minimal information: purchase receipts (when using payment processors), support emails, and optional analytics if you opt-in.
+
+3. Use of Information
+- Payment processors handle billing data.
+- Support emails used to resolve customer issues.
+- Aggregated analytics (optional) used to improve product.
+
+4. Data Retention
+We retain only necessary information to provide support and for refund verification.
+
+5. Third-Party Services
+We may use Gumroad, Stripe, or FastSpring for payments. These services have their own privacy practices.
+
+6. Security
+We use reasonable measures to protect personal information, but no method is 100% secure.
+
+7. Your Rights
+You may request deletion of your data by contacting business@iconora.com.
+
+8. Contact
+business@iconora.com
+
+----

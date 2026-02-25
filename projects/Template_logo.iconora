@@ -1,0 +1,16 @@
+{
+    "project_type": "logo",
+    "type": "logo",
+    "text": "Untitled Logo",
+    "font": "Arial",
+    "size": 80,
+    "style": "Minimal",
+    "color": "#000000",
+    "secondary_color": "#ffffff",
+    "metadata": {
+        "name": "Template_logo",
+        "created": "2026-02-25T22:51:25.281737",
+        "modified": "2026-02-25T22:51:25.281753",
+        "version": "1.0"
+    }
+}

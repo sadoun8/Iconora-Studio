@@ -1,0 +1,23 @@
+# Development Dependencies
+# استخدم هذا الملف عند تطوير المشروع
+
+# Basic dependencies (from requirements.txt)
+customtkinter==5.2.2
+pillow==10.1.0
+svgwrite==1.4.3
+cairosvg==2.7.1
+rembg==2.0.60
+PyInstaller==6.4.0
+
+# Development tools
+black==24.1.1          # Code formatter
+flake8==7.0.0          # Linter
+pylint==3.0.3          # Code analyzer
+pytest==7.4.4          # Testing framework
+pytest-cov==4.1.0      # Code coverage
+
+# Documentation
+Sphinx==7.2.6          # Documentation generator
+
+# Version control
+gitpython==3.1.40      # Git operations

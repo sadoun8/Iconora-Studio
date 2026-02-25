@@ -1,0 +1,12 @@
+"""
+Placeholder for project exports
+Project output directory
+"""
+
+# This directory will contain exported files:
+# - .ico files
+# - .png files
+# - .svg files (future)
+# - .iconora project files (future)
+
+# Created automatically on first run

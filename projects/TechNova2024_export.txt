@@ -1,0 +1,8 @@
+project_name: TechNova2024
+client: TechNova Solutions
+project_type: complete_brand
+design_year: 2024
+logos: [{'name': 'Main Logo', 'style': '3D', 'color': '#0f2027', 'created': '2026-02-25T22:54:38.841164'}, {'name': 'Icon Mark', 'style': 'Minimal', 'color': '#0f2027', 'created': '2026-02-25T22:54:38.841208'}]
+signatures: [{'name': 'Alexandra Sterling', 'title': 'CEO', 'file': 'Alexandra_Sterling_with_title.png'}, {'name': 'Michael Chen', 'title': 'CFO', 'file': 'Michael_Chen_with_title.png'}]
+palettes: [{'name': 'Primary', 'style': 'Luxury', 'index': 2, 'palette_name': 'Deep Blue Royalty', 'colors': ['#0f2027', '#2c5364', '#203a43', '#1e3a5f', '#16213e']}]
+metadata: {'name': 'TechNova2024', 'created': '2026-02-25T22:54:38.841236', 'modified': '2026-02-25T22:54:38.841248', 'version': '1.0'}
