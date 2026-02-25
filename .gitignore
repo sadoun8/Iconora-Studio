@@ -63,6 +63,7 @@ env/
 exports/*
 !exports/.gitkeep
 *.ico
+!assets/icons/app.ico
 *.psd
 *.ai
 
