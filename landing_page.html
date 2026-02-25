@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iconora Studio - Professional Design Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        header {
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0.5rem 0;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero {
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: #666;
+        }
+
+        .pricing-section {
+            margin: 3rem 0;
+        }
+
+        .pricing-section h2 {
+            text-align: center;
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid #667eea;
+            transform: scale(1.05);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: #667eea;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 1.5rem 0;
+        }
+
+        .pricing-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .pricing-card li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .screenshots {
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .screenshots h2 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .screenshot {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .screenshot img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .stats {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            background: rgba(0,0,0,0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .cta-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .cta-section h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 0.5rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>✨ Iconora Studio</h1>
+        <p>Professional Design Suite for Modern Designers</p>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h2>Design Like a Pro</h2>
+            <p>Create stunning icons, logos, signatures, and branded content with our professional design suite.
+            Trusted by designers worldwide.</p>
+
+            <div class="badge">🎨 Icons</div>
+            <div class="badge">🖼️ Logos</div>
+            <div class="badge">✍️ Signatures</div>
+            <div class="badge">🎯 Palettes</div>
+            <div class="badge">📁 Projects</div>
+
+            <br><br>
+            <button class="btn">Get Started Free</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Happy Users</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">10,000+</div>
+                <div class="stat-label">Designs Created</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">99.9%</div>
+                <div class="stat-label">Uptime</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Support</div>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: white; margin: 3rem 0 2rem;">Core Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>💾 Icon Converter</h3>
+                <p>Convert icons to 7 different sizes automatically. Perfect for web, mobile, and print.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>🔄 SVG Converter</h3>
+                <p>Transform images to scalable SVG format. No quality loss, infinite scalability.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>🎨 Logo Designer</h3>
+                <p>Create professional logos with 3 design styles. Customize colors, fonts, and effects.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>✍️ Signature Engine</h3>
+                <p>Generate professional digital signatures. Perfect for contracts and documents.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>🎯 Palette Generator</h3>
+                <p>AI-powered color palette generation. Create harmonious color schemes instantly.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>📁 Project Manager</h3>
+                <p>Organize your designs. Track versions and collaborate with your team.</p>
+            </div>
+        </div>
+
+        <div class="pricing-section">
+            <h2>Choose Your Plan</h2>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>🟢 Demo</h3>
+                    <div class="price">Free</div>
+                    <p>Perfect for trying out</p>
+                    <ul>
+                        <li>Icon Conversion (7 sizes)</li>
+                        <li>Limited features</li>
+                        <li>Forever free</li>
+                    </ul>
+                    <button class="btn">Download Demo</button>
+                </div>
+
+                <div class="pricing-card featured">
+                    <h3>🔵 Pro</h3>
+                    <div class="price">$29</div>
+                    <p>All features, lifetime access</p>
+                    <ul>
+                        <li>Icon Converter</li>
+                        <li>SVG Converter</li>
+                        <li>Logo Designer (3 styles)</li>
+                        <li>Signature Engine</li>
+                        <li>Smart Palettes (6 sets)</li>
+                        <li>Project Manager</li>
+                        <li>Batch Operations</li>
+                        <li>Lifetime updates</li>
+                    </ul>
+                    <a class="btn" href="https://gumroad.com/l/iconora-pro" target="_blank" rel="noopener">Buy Pro — $29</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>🟣 Enterprise</h3>
+                    <div class="price">$99</div>
+                    <p>Everything + support & API</p>
+                    <ul>
+                        <li>All Pro features</li>
+                        <li>REST API Access</li>
+                        <li>Priority Support (1-hour)</li>
+                        <li>Custom Fonts</li>
+                        <li>Advanced Batch</li>
+                        <li>Team Collaboration</li>
+                        <li>Custom Branding</li>
+                    </ul>
+                    <a class="btn" href="https://gumroad.com/l/iconora-enterprise" target="_blank" rel="noopener">Buy Enterprise — $99</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Create?</h2>
+            <p>Join hundreds of designers creating beautiful work with Iconora Studio</p>
+            <button class="btn">Download Free Demo</button>
+            <p style="margin-top: 1rem; color: #666;">No credit card required. 30-day money-back guarantee on Pro & Enterprise.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Iconora Studio. All rights reserved.</p>
+        <p>Developed by Sadoun Al-Ardawi | 📧 support@iconora.com</p>
+        <p>
+            <a href="#" style="color: #667eea; margin: 0 1rem;">Terms of Service</a> |
+            <a href="#" style="color: #667eea; margin: 0 1rem;">Privacy Policy</a> |
+            <a href="#" style="color: #667eea; margin: 0 1rem;">Support</a>
+        </p>
+    </footer>
+</body>
+</html>
