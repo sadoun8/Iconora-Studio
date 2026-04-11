@@ -6,10 +6,13 @@ import requests
 import base64
 
 try:
-    from rembg import remove
+    from rembg import remove, new_session
     from PIL import Image
     import io
+    # Use lightweight model to prevent out-of-memory errors on free cloud tiers
+    rembg_session = new_session("u2netp")
 except ImportError as e:
+    rembg_session = None
     print(f"Error importing imaging libraries: {e}. Ensure rembg and pillow are installed.")
 
 try:
@@ -74,7 +77,10 @@ def generate_logo(req: LogoRequest):
             print("Removing background from AI generated image...")
             try:
                 # rembg expects bytes and returns bytes containing a PNG with alpha channel
-                image_bytes = remove(image_bytes)
+                if rembg_session:
+                    image_bytes = remove(image_bytes, session=rembg_session)
+                else:
+                    image_bytes = remove(image_bytes)
                 print("Background removed successfully.")
             except Exception as e:
                 print(f"Background removal failed: {e}, returning original image.")
