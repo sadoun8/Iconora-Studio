@@ -1,54 +1,65 @@
 """
-Configuration and Constants
-المتغيرات الثابتة والإعدادات
+Iconora Studio - Configuration and Constants
+الإعدادات والثوابت
 """
 
 import os
 from pathlib import Path
 
 # ============================================================
-# 🎨 Configuration Settings
+# 📁 Path Configuration
 # ============================================================
 
 # Project root directory
 PROJECT_ROOT = Path(__file__).parent
 
-# Directories
-EXPORTS_DIR = PROJECT_ROOT / "exports"
+# Standard export path in user documents (Avoids Permission Errors)
+USER_DOCS = Path(os.path.expanduser("~/Documents"))
+ICONORA_DOCS = USER_DOCS / "Iconora Studio"
+EXPORTS_DIR = ICONORA_DOCS / "Exports"
+PROJECTS_DIR = ICONORA_DOCS / "Projects"
+LOG_DIR = ICONORA_DOCS / "Logs"
+
+# Category-specific export directories
+EXPORT_SUBDIRS = {
+    "Icons": EXPORTS_DIR / "Icons",
+    "SVGs": EXPORTS_DIR / "SVGs",
+    "Logos": EXPORTS_DIR / "Logos",
+    "Signatures": EXPORTS_DIR / "Signatures",
+    "Palettes": EXPORTS_DIR / "Palettes"
+}
+
+# Assets
 ASSETS_DIR = PROJECT_ROOT / "assets"
 FONTS_DIR = ASSETS_DIR / "fonts"
 ICONS_DIR = ASSETS_DIR / "icons"
 TEMPLATES_DIR = ASSETS_DIR / "templates"
 
-# Create directories if they don't exist
-for directory in [EXPORTS_DIR, FONTS_DIR, ICONS_DIR, TEMPLATES_DIR]:
-    directory.mkdir(parents=True, exist_ok=True)
+# Create all necessary directories
+ALL_DIRS = [ICONORA_DOCS, EXPORTS_DIR, PROJECTS_DIR, LOG_DIR, FONTS_DIR, ICONS_DIR, TEMPLATES_DIR] + list(EXPORT_SUBDIRS.values())
+
+for directory in ALL_DIRS:
+    try:
+        directory.mkdir(parents=True, exist_ok=True)
+    except Exception as e:
+        print(f"Warning: Could not create directory {directory}: {e}")
 
 # ============================================================
 # 🎨 UI Configuration
 # ============================================================
 
-# Window
-WINDOW_TITLE = "Iconora Studio - أداة تحويل الأيقونات المحترفة"
-WINDOW_SIZE = "1200x700"
-WINDOW_MIN_SIZE = (900, 600)
+WINDOW_TITLE = "Iconora Studio - Professional Design Suite"
+WINDOW_SIZE = "1200x800"
+WINDOW_MIN_SIZE = (1000, 700)
 
 # Theme
-APPEARANCE_MODE = "dark"  # "dark" or "light"
-COLOR_THEME = "blue"      # "blue", "green", "dark-blue"
+APPEARANCE_MODE = "dark"
+COLOR_THEME = "blue"
 
-# Fonts
-FONT_PRIMARY = ("Arial", 12)
-FONT_TITLE = ("Arial", 18, "bold")
-FONT_SUBTITLE = ("Arial", 11)
-FONT_SMALL = ("Arial", 10)
-
-# Colors
-COLOR_BG_PRIMARY = "#1a1a1a"
-COLOR_BG_SECONDARY = "#252525"
-COLOR_TEXT_PRIMARY = "#ffffff"
-COLOR_TEXT_SECONDARY = "#888888"
-COLOR_ACCENT = "#3498db"
+# Colors (Modern Palette)
+COLOR_BG_PRIMARY = ["#F1F5F9", "#0F0F0F"]
+COLOR_BG_SECONDARY = ["#FFFFFF", "#1A1A1A"]
+COLOR_ACCENT = ["#667EEA", "#764BA2"]
 
 # ============================================================
 # 🖼️ Icon Configuration
@@ -63,79 +74,27 @@ ICON_SIZES_STANDARD = [
     (64, 64),
     (128, 128),
     (256, 256),
+    (512, 512)
 ]
 
-# Icon size labels for UI
-ICON_SIZES_LABELS = {
-    (16, 16): "16x16 (Favicon)",
-    (24, 24): "24x24 (Small)",
-    (32, 32): "32x32 (Default)",
-    (48, 48): "48x48 (Medium)",
-    (64, 64): "64x64 (Large)",
-    (128, 128): "128x128 (Extra Large)",
-    (256, 256): "256x256 (Ultra Large)",
-}
-
 # Supported image formats
-SUPPORTED_FORMATS = ("*.png", "*.jpg", "*.jpeg", "*.bmp", "*.gif", "*.tiff")
-IMAGE_FILTER = [("صور | Images", " ".join(SUPPORTED_FORMATS)), ("جميع الملفات | All", "*.*")]
+SUPPORTED_FORMATS = ("*.png", "*.jpg", "*.jpeg", "*.bmp", "*.gif")
 
 # ============================================================
 # 📊 Application Settings
 # ============================================================
 
-# Version
-APP_VERSION = "1.0.0"
-APP_PHASE = "Phase 1"
+APP_VERSION = "2.0.0"
+APP_PHASE = "Professional Edition"
 
 # Default export settings
-DEFAULT_EXPORT_FORMAT = "ico"  # "ico" or "png"
+DEFAULT_EXPORT_FORMAT = "ico"
 AUTO_OPEN_EXPORT_FOLDER = False
 SHOW_PREVIEW = True
-
-# Quality settings
-COMPRESSION_QUALITY = 95
-INTERPOLATION_METHOD = "LANCZOS"  # For image resizing
-
-# ============================================================
-# 🌍 Localization
-# ============================================================
-
-# UI Labels (English & Arabic)
-LABELS = {
-    "app_title": "🎨 Iconora Studio",
-    "app_subtitle": "أداة احترافية لتحويل الصور والتصميم",
-
-    # Tabs
-    "tab_icons": "تحويل الأيقونات | Icon Converter",
-    "tab_svg": "قريباً - SVG | Soon - SVG",
-    "tab_logos": "قريباً - الشعارات | Soon - Logos",
-
-    # Buttons
-    "btn_select_image": "📁 اختر صورة | Select Image",
-    "btn_save_ico": "💾 حفظ كـ ICO | Save as ICO",
-    "btn_save_png": "📸 حفظ PNG | Export PNG",
-
-    # Messages
-    "msg_select_image_first": "الرجاء اختيار صورة أولاً | Please select an image first",
-    "msg_success": "تم بنجاح | Success!",
-    "msg_error": "حدث خطأ | Error",
-}
-
-# ============================================================
-# 🔧 Advanced Settings
-# ============================================================
 
 # Logging
 ENABLE_LOGGING = True
 LOG_LEVEL = "INFO"
-LOG_FILE = PROJECT_ROOT / "app.log"
+LOG_FILE = LOG_DIR / "app.log"
 
-# Database (for future phases)
-SAVE_PROJECT_FORMAT = ".iconora"  # Custom project format
-
-# Debugging
-DEBUG_MODE = False
-VERBOSE_OUTPUT = False
-
-print("[Config] Initialized successfully ✅")
+print("[Config] Initialized successfully.")

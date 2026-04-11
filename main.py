@@ -2,7 +2,7 @@
 Iconora Studio - Professional Image Conversion Tool
 برنامج احترافي لتحويل الصور وتصميم الأيقونات والشعارات
 
-Version: 1.0.0 (Phase 1)
+Version: 1.2.0 (Phase 6)
 Author: Design Team
 License: MIT
 """
@@ -10,10 +10,16 @@ License: MIT
 import sys
 import os
 
-# إضافة مسار المشروع
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# إضافة مسار المشروع والمكتبات الخاصة بالمستخدم
+import site
+root = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, root)
+user_site = site.getusersitepackages()
+if user_site and user_site not in sys.path:
+    sys.path.append(user_site)
 
 from ui.main_window import MainWindow
+
 
 
 def main():

@@ -1,0 +1,8 @@
+{
+    "name": "Tech Blue",
+    "style": "3D",
+    "font_size": 85,
+    "color1": [54, 209, 220],
+    "color2": [91, 134, 229],
+    "default_text": "TECH"
+}

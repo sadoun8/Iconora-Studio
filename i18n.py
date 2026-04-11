@@ -36,8 +36,177 @@ TRANSLATIONS = {
         "ar": "مولد التوقيعات",
         "en": "Signature Generator"
     },
+    "tab_palette_generator": {
+        "ar": "مولد الألوان",
+        "en": "Palette Generator"
+    },
+    "tab_projects": {
+        "ar": "إدارة المشاريع",
+        "en": "Project Manager"
+    },
+    "tab_settings": {
+        "ar": "إعدادات البرنامج",
+        "en": "Settings"
+    },
+    "settings_appearance_mode": {
+        "ar": "وضع المظهر",
+        "en": "Appearance Mode"
+    },
+    "settings_app_language": {
+        "ar": "لغة البرنامج",
+        "en": "Application Language"
+    },
+    "settings_export_quality": {
+        "ar": "جودة التصدير العامة",
+        "en": "Global Export Quality"
+    },
+    "settings_auto_open": {
+        "ar": "فتح المجلد تلقائياً بعد التصدير",
+        "en": "Auto-open folder after export"
+    },
+    "settings_resources": {
+        "ar": "الموارد والخطوط",
+        "en": "Resources"
+    },
+    "settings_get_fonts": {
+        "ar": "الحصول على خطوط عربية احترافية",
+        "en": "Get Professional Arabic Fonts"
+    },
+    "settings_about": {
+        "ar": "حول Iconora Studio",
+        "en": "About Iconora Studio"
+    },
+    "app_description_brief": {
+        "ar": "مجموعة أدوات احترافية للمبدعين.",
+        "en": "A professional suite for creators."
+    },
+    "settings_storage_paths": {
+        "ar": "📂 التخزين والمسارات",
+        "en": "📂 Storage & Paths"
+    },
+    "settings_open_data_dir": {
+        "ar": "فتح مجلد البيانات الرئيسي",
+        "en": "Open Main Data Folder"
+    },
+    "settings_ai_section": {
+        "ar": "الذكاء الاصطناعي (Ollama/Qwen)",
+        "en": "AI Assistant (Ollama/Qwen)"
+    },
+    "settings_ai_enable": {
+        "ar": "تفعيل ميزات الذكاء الاصطناعي",
+        "en": "Enable AI features"
+    },
+    "settings_ai_endpoint": {
+        "ar": "رابط خدمة الذكاء الاصطناعي",
+        "en": "AI Endpoint"
+    },
+    "settings_ai_model": {
+        "ar": "النموذج",
+        "en": "AI Model"
+    },
+    "settings_ai_timeout": {
+        "ar": "مهلة الاتصال (ثانية)",
+        "en": "Timeout (sec)"
+    },
+    "settings_ai_test": {
+        "ar": "اختبار اتصال الذكاء الاصطناعي",
+        "en": "Test AI Connection"
+    },
+    "msg_ai_backend_ok": {
+        "ar": "خدمة الذكاء الاصطناعي متاحة وتعمل ✅",
+        "en": "AI backend is reachable and ready ✅"
+    },
+    "msg_ai_backend_fail": {
+        "ar": "تعذر الوصول إلى خدمة الذكاء الاصطناعي.\nتحقق من Ollama أو رابط الخدمة أو اسم النموذج.",
+        "en": "AI backend is not reachable.\nCheck Ollama service, endpoint, or model name."
+    },
 
-    # ==================== ICON TAB ====================
+    # ==================== SIGNATURE TAB ====================
+    "sig_studio_title": {"ar": "✍️ ستوديو التواقيع", "en": "✍️ Signature Studio"},
+    "sig_name": {"ar": "الاسم", "en": "Name"},
+    "sig_name_ph": {"ar": "الاسم الكامل...", "en": "Full name..."},
+    "sig_title": {"ar": "اللقب (اختياري)", "en": "Title (optional)"},
+    "sig_title_ph": {"ar": "مثال: المدير، المهندس...", "en": "e.g. CEO, Designer..."},
+    "sig_font": {"ar": "✒️ خط التوقيع", "en": "✒️ Signature Font"},
+    "sig_title_font": {"ar": "✒️ خط اللقب", "en": "✒️ Title Font"},
+    "sig_size": {"ar": "الحجم", "en": "Size"},
+    "sig_ornament": {"ar": "🌿 الزخرفة/الفواصل", "en": "🌿 Ornament / Flourish"},
+    "sig_main_color": {"ar": "🖌 لون الحبر الأساسي", "en": "🖌 Main Ink Color"},
+    "sig_title_color": {"ar": "🖌 لون اللقب", "en": "🖌 Title Color"},
+    "sig_pick_color": {"ar": "● اختر اللون", "en": "● Pick Color"},
+    "sig_presets": {"ar": "ألون جاهزة:", "en": "Presets:"},
+    "sig_opacity": {"ar": "💧 شفافية الحبر", "en": "💧 Opacity"},
+    "sig_options": {"ar": "⚙️ خيارات", "en": "⚙️ Options"},
+    "sig_transparent": {"ar": "خلفية شفافة (PNG)", "en": "Transparent Background (PNG)"},
+    "sig_ink": {"ar": "تأثير الحبر الطبيعي وضغط القلم", "en": "Realistic Ink & Pressure Effect"},
+    "sig_artistic_undercurve": {"ar": "منحنى سفلي فني", "en": "Artistic Undercurve"},
+    "sig_artistic_swirl": {"ar": "دوامة فنية", "en": "Artistic Swirl"},
+    "sig_artistic_double_strike": {"ar": "شطبة مزدوجة", "en": "Artistic Double Strike"},
+    "sig_artistic_slash": {"ar": "خط مائل فني", "en": "Artistic Slash"},
+    "sig_artistic_curve_up": {"ar": "منحنى علوي", "en": "Artistic Curve Up"},
+    "sig_artistic_loop_under": {"ar": "حلقة سفلية", "en": "Artistic Loop Under"},
+    "sig_artistic_bracket_left": {"ar": "قوس يسار", "en": "Artistic Bracket Left"},
+    "sig_artistic_bracket_right": {"ar": "قوس يمين", "en": "Artistic Bracket Right"},
+    "sig_save": {"ar": "✨ حفظ التوقيع (PNG)", "en": "✨ Save Signature (PNG)"},
+    "sig_preview": {"ar": "المعاينة المباشرة", "en": "Live Preview"},
+    "sig_style": {"ar": "📐 ستايل التوقيع", "en": "📐 Signature Style"},
+    "sig_typography_settings": {"ar": "إعدادات الخطوط", "en": "Typography Settings"},
+    "sig_line_spacing": {"ar": "تباعد الأسطر", "en": "Line Spacing"},
+    "sig_artistic_adjust": {"ar": "تعديلات فنية", "en": "Artistic Adjustments"},
+    "sig_slant": {"ar": "الميلان (مائل)", "en": "Slant (Italic)"},
+    "sig_ink_thickness": {"ar": "سماكة الحبر", "en": "Ink Thickness"},
+    "sig_rotation": {"ar": "التدوير", "en": "Rotation"},
+    "sig_ornament_color": {"ar": "الزخرفة واللون", "en": "Ornament & Color"},
+    "sig_pick_main_color": {"ar": "اختر اللون الأساسي", "en": "Pick Main Color"},
+    "sig_pick_title_color": {"ar": "اختر لون اللقب", "en": "Pick Title Color"},
+    "sig_overall_opacity": {"ar": "الشفافية العامة", "en": "Overall Opacity"},
+    "sig_save_signature": {"ar": "✨ حفظ التوقيع", "en": "✨ Save Signature"},
+    "sig_open_gallery": {"ar": "مكتبة التواقيع المحفوظة", "en": "Open Signature Library"},
+    "sig_add_to_library": {"ar": "إضافة للمكتبة الشخصية", "en": "Add to Private Library"},
+    "sig_added_to_library": {"ar": "تمت الإضافة للمكتبة بنجاح", "en": "Added to library successfully"},
+    "sig_gallery_title": {"ar": "📚 مكتبة التواقيع الخاصة بك", "en": "📚 Your Signature Gallery"},
+    "sig_pick_sig_color": {"ar": "اختر لون التوقيع", "en": "Pick Signature Color"},
+    "sig_enter_name": {"ar": "يرجى إدخال الاسم.", "en": "Enter a name."},
+    "opt_none": {"ar": "بدون", "en": "None"},
+    "opt_normal": {"ar": "عادي", "en": "Normal"},
+    "opt_upward": {"ar": "صاعد", "en": "Upward"},
+    "opt_slanted": {"ar": "مائل", "en": "Slanted"},
+
+    # ==================== LOGO TAB ====================
+    "logo_designer_title": {"ar": "💎 ستوديو تصميم الشعارات", "en": "💎 Logo Design Studio"},
+    "lbl_logo_text": {"ar": "اسم الشركة / النص", "en": "Company Name / Text"},
+    "placeholder_company_name": {"ar": "أدخل اسم العلامة التجارية...", "en": "Enter brand name..."},
+    "logo_general_settings": {"ar": "⚙️ الإعدادات العامة", "en": "⚙️ General Settings"},
+    "logo_overlay": {"ar": "دمج النص مع الأيقونة في الخلفية", "en": "Overlay text on icon background"},
+    "logo_typography_pos": {"ar": "✒️ الخط والموقع", "en": "✒️ Typography & Position"},
+    "logo_font_size": {"ar": "حجم الخط", "en": "Font Size"},
+    "logo_offset_x": {"ar": "إزاحة أفقية (نص)", "en": "Text Offset X"},
+    "logo_offset_y": {"ar": "إزاحة رأسية (نص)", "en": "Text Offset Y"},
+    "logo_effects": {"ar": "✨ التأثيرات البصرية", "en": "✨ Visual Effects"},
+    "logo_shadow_blur": {"ar": "تشتت الظل", "en": "Shadow Blur"},
+    "logo_shadow_offset": {"ar": "إزاحة الظل", "en": "Shadow Offset"},
+    "logo_shadow_opacity": {"ar": "شفافية الظل", "en": "Shadow Opacity"},
+    "logo_shadow_color": {"ar": "لون الظل", "en": "Shadow Color"},
+    "logo_glow_color": {"ar": "لون التوهج", "en": "Glow Color"},
+    "logo_glow_radius": {"ar": "نطاق التوهج", "en": "Glow Radius"},
+    "logo_primary_color": {"ar": "اللون الأساسي", "en": "Primary Color"},
+    "logo_secondary_color": {"ar": "اللون الثانوي", "en": "Secondary Color"},
+    "logo_icon_custom": {"ar": "🎨 تخصيص الأيقونة", "en": "🎨 Icon Customization"},
+    "logo_load_icon": {"ar": "تحميل أيقونة مخصصة", "en": "Load Custom Icon"},
+    "logo_no_icon": {"ar": "لم يتم اختيار أيقونة", "en": "No icon selected"},
+    "logo_icon_scale": {"ar": "حجم الأيقونة", "en": "Icon Scale"},
+    "logo_icon_rotation": {"ar": "تدوير الأيقونة", "en": "Icon Rotation"},
+    "logo_icon_opacity": {"ar": "شفافية الأيقونة", "en": "Icon Opacity"},
+    "logo_icon_saturation": {"ar": "تشبع ألوان الأيقونة", "en": "Icon Saturation"},
+    "logo_icon_offset_x": {"ar": "إزاحة أفقية (أيقونة)", "en": "Icon Offset X"},
+    "logo_icon_offset_y": {"ar": "إزاحة رأسية (أيقونة)", "en": "Icon Offset Y"},
+    "logo_generate_save": {"ar": "✨ توليد وحفظ الشعار", "en": "✨ Generate & Save Logo"},
+    "logo_ai_generate": {"ar": "توليد ذكي للشعار", "en": "AI Generate Logo"},
+    "logo_target_text": {"ar": "التحكم بالنص", "en": "Target: Text"},
+    "logo_target_icon": {"ar": "التحكم بالأيقونة", "en": "Target: Icon"},
+    "btn_apply_watermark": {"ar": "تطبيق كعلامة مائية", "en": "Apply as Watermark"},
+    "msg_select_base_image": {"ar": "اختر الصورة المراد وضع العلامة عليها", "en": "Select image to watermark"},
+    "msg_watermark_success": {"ar": "تم تطبيق العلامة المائية وحفظ الصورة بنجاح", "en": "Watermark applied and image saved successfully"},
     "icon_tab_title": {
         "ar": "تحويل الصور إلى أيقونات",
         "en": "Convert Images to Icons"
@@ -66,6 +235,41 @@ TRANSLATIONS = {
         "ar": "📸 حفظ PNG",
         "en": "📸 Export PNG"
     },
+    "btn_remove_bg": {
+        "ar": "✨ إزالة الخلفية (ذكاء اصطناعي)",
+        "en": "✨ Remove Background (AI)"
+    },
+    "msg_rembg_success": {
+        "ar": "تمت إزالة الخلفية بنجاح!",
+        "en": "Background removed successfully!"
+    },
+    "msg_rembg_error": {
+        "ar": "فشلت عملية إزالة الخلفية بالذكاء الاصطناعي",
+        "en": "AI background removal failed"
+    },
+    "btn_reset_page": {
+        "ar": "🔄 إعادة ضبط الصفحة",
+        "en": "🔄 Reset Page"
+    },
+
+    # Mask & Shape
+    "lbl_mask_shape": {"ar": "القناع والشكل", "en": "Mask & Shape"},
+    "lbl_corner_radius": {"ar": "نصف قطر الزاوية (%)", "en": "Corner Radius (%)"},
+    "lbl_internal_padding": {"ar": "الهامش الداخلي (%)", "en": "Internal Padding (%)"},
+    "lbl_bg_border": {"ar": "الخلفية والإطار", "en": "Background & Border"},
+    "lbl_bg_color": {"ar": "لون الخلفية", "en": "Background Color"},
+    "lbl_border_width": {"ar": "عرض الإطار (%)", "en": "Border Width (%)"},
+    "lbl_border_color": {"ar": "لون الإطار", "en": "Border Color"},
+
+    # Text Overlay
+    "lbl_text_overlay": {"ar": "🔤 الكتابة على الأيقونة", "en": "🔤 Text Overlay"},
+    "opt_enable_text": {"ar": "تفعيل الكتابة", "en": "Enable Text"},
+    "lbl_text": {"ar": "النص", "en": "Text"},
+    "lbl_position": {"ar": "الموقع", "en": "Position"},
+    "pos_top": {"ar": "أعلى", "en": "Top"},
+    "pos_center": {"ar": "وسط", "en": "Center"},
+    "pos_bottom": {"ar": "أسفل", "en": "Bottom"},
+    "opt_outline": {"ar": "إضافة إطار أسود (Outline)", "en": "Add black outline"},
 
     # ==================== SIZE LABELS ====================
     "size_16": {
@@ -169,6 +373,10 @@ TRANSLATIONS = {
     "msg_warning": {
         "ar": "تحذير",
         "en": "Warning"
+    },
+    "msg_confirm": {
+        "ar": "تأكيد",
+        "en": "Confirm"
     },
     "msg_select_image_first": {
         "ar": "الرجاء اختيار صورة أولاً",
@@ -338,6 +546,22 @@ TRANSLATIONS = {
         "ar": "عالية جداً",
         "en": "Very High"
     },
+    # Image Adjustments
+    "lbl_brightness": {"ar": "السطوع", "en": "Brightness"},
+    "lbl_contrast": {"ar": "التباين", "en": "Contrast"},
+    "lbl_saturation": {"ar": "تشبع الألوان", "en": "Saturation"},
+    "lbl_flip_h": {"ar": "قلب أفقي", "en": "Flip Horizontal"},
+    "lbl_flip_v": {"ar": "قلب رأسي", "en": "Flip Vertical"},
+    "lbl_image_adjust": {"ar": "🖼️ تعديلات الصورة", "en": "🖼️ Image Adjustments"},
+    "opt_circle": {"ar": "قص دائري", "en": "Circle Mask"},
+    "opt_squircle": {"ar": "قص سكويركل (iOS)", "en": "Squircle Mask (iOS)"},
+    "opt_rounded": {"ar": "حواف مستديرة", "en": "Rounded Corners"},
+    "msg_select_icon_first": {"ar": "الرجاء اختيار أيقونة أولاً", "en": "Please select an icon first"},
+    "dlg_select_icon": {"ar": "اختر أيقونة للشعار", "en": "Select Logo Icon"},
+    "lbl_image_files": {"ar": "ملفات الصور", "en": "Image Files"},
+    "lbl_all_files": {"ar": "جميع الملفات", "en": "All Files"},
+    "lbl_logo_text": {"ar": "نص الشعار", "en": "Logo Text"},
+    "placeholder_company_name": {"ar": "اسم الشركة...", "en": "Company name..."},
     "quality_normal": {
         "ar": "عادية",
         "en": "Normal"
@@ -349,8 +573,8 @@ TRANSLATIONS = {
 
     # ==================== SVG TAB ====================
     "btn_convert_svg": {
-        "ar": "🔄 تحويل إلى SVG",
-        "en": "🔄 Convert to SVG"
+        "ar": "🔄 بدء تحويل SVG الآن",
+        "en": "🔄 Start SVG Conversion Now"
     },
     "lbl_image_preview": {
         "ar": "معاينة الصورة",
@@ -367,6 +591,14 @@ TRANSLATIONS = {
     "dlg_select_image": {
         "ar": "اختر صورة",
         "en": "Select Image"
+    },
+    "dlg_select_icon": {
+        "ar": "اختر أيقونة/رمز",
+        "en": "Select Icon/Symbol"
+    },
+    "msg_select_icon_first": {
+        "ar": "الرجاء اختيار أيقونة أولاً",
+        "en": "Please select an icon first"
     },
     "lbl_error": {
         "ar": "خطأ",
@@ -398,65 +630,173 @@ TRANSLATIONS = {
     },
 
     # ==================== LOGO TAB ====================
-    "lbl_logo_settings": {
-        "ar": "إعدادات الشعار",
-        "en": "Logo Settings"
+    "logo_designer_title": {"ar": "🎯 مصمم الشعارات", "en": "🎯 Logo Designer"},
+    "logo_general_settings": {"ar": "الإعدادات العامة", "en": "General Settings"},
+    "logo_style": {"ar": "النمط", "en": "Style"},
+    "logo_layout": {"ar": "التخطيط", "en": "Layout"},
+    "logo_template": {"ar": "القالب", "en": "Template"},
+    "logo_canvas_size": {"ar": "حجم مساحة العمل", "en": "Canvas Size"},
+    "logo_overlay": {"ar": "نص فوق الأيقونة (تداخل)", "en": "Text Over Icon (Overlay)"},
+    "logo_typography_pos": {"ar": "الخط والموقع", "en": "Typography & Position"},
+    "logo_font_size": {"ar": "حجم الخط", "en": "Font Size"},
+    "logo_offset_x": {"ar": "إزاحة النص X", "en": "Text Offset X"},
+    "logo_offset_y": {"ar": "إزاحة النص Y", "en": "Text Offset Y"},
+    "logo_effects": {"ar": "✨ التأثيرات (ظل وتوهج)", "en": "✨ Effects (Shadow & Glow)"},
+    "logo_shadow_blur": {"ar": "نعومة الظل", "en": "Shadow Blur"},
+    "logo_shadow_offset": {"ar": "إزاحة الظل", "en": "Shadow Offset"},
+    "logo_shadow_opacity": {"ar": "شفافية الظل", "en": "Shadow Opacity"},
+    "logo_shadow_color": {"ar": "لون الظل", "en": "Shadow Color"},
+    "logo_glow_radius": {"ar": "نصف قطر التوهج", "en": "Glow Radius"},
+    "logo_glow_color": {"ar": "لون التوهج", "en": "Glow Color"},
+    "logo_primary_color": {"ar": "اللون الأساسي", "en": "Primary Color"},
+    "logo_secondary_color": {"ar": "اللون الثانوي/3D", "en": "Secondary/3D Color"},
+    "logo_icon_custom": {"ar": "تخصيص الأيقونة", "en": "Icon Customization"},
+    "logo_load_icon": {"ar": "📦 تحميل أيقونة/رمز", "en": "📦 Load Icon/Symbol"},
+    "logo_icon_scale": {"ar": "حجم الأيقونة (%)", "en": "Icon Scale (%)"},
+    "logo_icon_rotation": {"ar": "تدوير الأيقونة", "en": "Icon Rotation"},
+    "logo_icon_opacity": {"ar": "شفافية الأيقونة", "en": "Icon Opacity"},
+    "logo_icon_saturation": {"ar": "تشبع الأيقونة", "en": "Icon Saturation"},
+    "logo_icon_offset_x": {"ar": "إزاحة الأيقونة X", "en": "Icon Offset X"},
+    "logo_icon_offset_y": {"ar": "إزاحة الأيقونة Y", "en": "Icon Offset Y"},
+    "logo_move_target": {"ar": "عنصر التحريك", "en": "Drag Target"},
+    "logo_target_text": {"ar": "النص", "en": "Text"},
+    "logo_target_icon": {"ar": "الأيقونة", "en": "Icon"},
+    "logo_generate_save": {"ar": "✨ إنشاء وحفظ الشعار", "en": "✨ Generate & Save Logo"},
+    "logo_no_icon": {"ar": "لم يتم اختيار أيقونة", "en": "No icon selected"},
+    "lbl_logo_settings": {"ar": "إعدادات الشعار", "en": "Logo Settings"},
+    "lbl_logo_text": {"ar": "نص الشعار", "en": "Logo Text"},
+    "placeholder_company_name": {"ar": "أدخل اسم الشركة/الشعار", "en": "Enter company/logo name"},
+    "lbl_font": {"ar": "الخط", "en": "Font"},
+    "lbl_font_size": {"ar": "حجم الخط", "en": "Font Size"},
+    "lbl_text_color": {"ar": "لون النص", "en": "Text Color"},
+    "lbl_bg_color": {"ar": "لون الخلفية", "en": "Background Color"},
+    "lbl_effects": {"ar": "التأثيرات", "en": "Effects"},
+    "opt_use_gradient": {"ar": "استخدام تدرج لوني", "en": "Use color gradient"},
+    "opt_add_shadow": {"ar": "إضافة ظل", "en": "Add shadow"},
+    "opt_blur_effect": {"ar": "تأثير ضبابي", "en": "Blur effect"},
+    "lbl_preview": {"ar": "المعاينة", "en": "Preview"},
+    "btn_generate_logo": {"ar": "✨ إنشاء وحفظ الشعار", "en": "✨ Generate & Save Logo"},
+    "btn_apply_conversion": {"ar": "🚀 تنفيذ التحويل النهائي", "en": "🚀 Execute Final Conversion"},
+    "btn_save_logo": {"ar": "حفظ الشعار", "en": "Save Logo"},
+    "lbl_png_files": {"ar": "صور PNG", "en": "PNG Images"},
+    "dlg_select_icon": {"ar": "اختر أيقونة/رمز", "en": "Select Icon/Symbol"},
+    "lbl_image_files": {"ar": "ملفات الصور", "en": "Image Files"},
+    "lbl_all_files": {"ar": "جميع الملفات", "en": "All Files"},
+
+    # ==================== PALETTE TAB ====================
+    "tab_palette_generator": {
+        "ar": "🎨 مولد الألوان",
+        "en": "🎨 Color Palettes"
     },
-    "lbl_logo_text": {
-        "ar": "نص الشعار",
-        "en": "Logo Text"
+    "palette_tab_title": {
+        "ar": "مولد لوحات الألوان",
+        "en": "Palette Generator"
     },
-    "placeholder_company_name": {
-        "ar": "أدخل اسم الشركة/الشعار",
-        "en": "Enter company/logo name"
+    "palette_desc": {
+        "ar": "قم بإنشاء لوحات ألوان احترافية لتصاميمك",
+        "en": "Generate professional color palettes for your designs"
     },
-    "lbl_font": {
-        "ar": "الخط",
-        "en": "Font"
+    "palette_style": {
+        "ar": "نمط اللوحة:",
+        "en": "Palette Style:"
     },
-    "lbl_font_size": {
-        "ar": "حجم الخط",
-        "en": "Font Size"
+    "palette_select": {
+        "ar": "اختر اللوحة:",
+        "en": "Select Palette:"
     },
-    "lbl_text_color": {
-        "ar": "لون النص",
-        "en": "Text Color"
+    "palette_preview": {
+        "ar": "معاينة اللوحة:",
+        "en": "Palette Preview:"
     },
-    "lbl_bg_color": {
-        "ar": "لون الخلفية",
-        "en": "Background Color"
+    "palette_info_placeholder": {
+        "ar": "اختر لوحة ألوان لعرض تفاصيل الألوان",
+        "en": "Select a palette to see color information"
     },
-    "lbl_effects": {
-        "ar": "التأثيرات",
-        "en": "Effects"
+    "palette_generate_btn": {
+        "ar": "إنشاء وحفظ لوحة الألوان",
+        "en": "Generate & Save Palette"
     },
-    "opt_use_gradient": {
-        "ar": "استخدام تدرج لوني",
-        "en": "Use color gradient"
+    "palette_modern": {
+        "ar": "عصري",
+        "en": "Modern"
     },
-    "opt_add_shadow": {
-        "ar": "إضافة ظل",
-        "en": "Add shadow"
+    "palette_luxury": {
+        "ar": "فخم",
+        "en": "Luxury"
     },
-    "opt_blur_effect": {
-        "ar": "تأثير ضبابي",
-        "en": "Blur effect"
+    "palette_save_success": {
+        "ar": "تم حفظ لوحة الألوان في:\n{path}",
+        "en": "Palette saved to:\n{path}"
     },
-    "lbl_preview": {
-        "ar": "المعاينة",
-        "en": "Preview"
+    "palette_select_warn": {
+        "ar": "يرجى اختيار لوحة ألوان أولاً",
+        "en": "Please select a palette first"
     },
-    "btn_generate_logo": {
-        "ar": "إنشاء الشعار",
-        "en": "Generate Logo"
+    "palette_output_warn": {
+        "ar": "يرجى تحديد مجلد الإخراج",
+        "en": "Please specify output folder"
     },
-    "btn_save_logo": {
-        "ar": "حفظ الشعار",
-        "en": "Save Logo"
+    "palette_generating": {
+        "ar": "جاري الإنشاء...",
+        "en": "Generating..."
     },
-    "lbl_png_files": {
-        "ar": "صور PNG",
-        "en": "PNG Images"
+    "palette_ready": {
+        "ar": "جاهز",
+        "en": "Ready"
+    },
+    "palette_error": {
+        "ar": "فشل الإنشاء: {error}",
+        "en": "Generation failed: {error}"
+    },
+    "palette_load_error": {
+        "ar": "فشل تحميل اللوحة: {error}",
+        "en": "Failed to load palette: {error}"
+    },
+    "lbl_output_folder": {
+        "ar": "مجلد المخرجات:",
+        "en": "Output Folder:"
+    },
+    "btn_browse": {
+        "ar": "استعراض",
+        "en": "Browse"
+    },
+
+    # ==================== PROJECTS TAB ====================
+    "projects_tab_title": {
+        "ar": "إدارة المشاريع",
+        "en": "Project Manager"
+    },
+    "projects_desc": {
+        "ar": "إدارة وحفظ مشاريعك للعودة إليها لاحقاً",
+        "en": "Manage and save your projects to return to them later"
+    },
+    "btn_save_project": {
+        "ar": "💾 حفظ المشروع",
+        "en": "💾 Save Project"
+    },
+    "btn_load_project": {
+        "ar": "📂 تحميل مشروع",
+        "en": "📂 Load Project"
+    },
+    "project_name": {
+        "ar": "اسم المشروع",
+        "en": "Project Name"
+    },
+    "project_type": {
+        "ar": "نوع المشروع",
+        "en": "Project Type"
+    },
+    "project_date": {
+        "ar": "التاريخ",
+        "en": "Date"
+    },
+    "msg_project_saved": {
+        "ar": "تم حفظ المشروع بنجاح",
+        "en": "Project saved successfully"
+    },
+    "msg_project_loaded": {
+        "ar": "تم تحميل المشروع بنجاح",
+        "en": "Project loaded successfully"
     },
 }
 

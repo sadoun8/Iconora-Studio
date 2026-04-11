@@ -1,0 +1,8 @@
+{
+    "name": "Luxury Gold",
+    "style": "Luxury",
+    "font_size": 90,
+    "color1": [212, 175, 55],
+    "color2": [0, 0, 0],
+    "default_text": "LUXE"
+}
