@@ -835,7 +835,7 @@ export default function App() {
         setAiPrompt('');
       };
     } catch (err) {
-      setAiError('تأكد أن محرك Python يعمل: python server.py');
+      setAiError('تعذر توليد الشعار! ربما الوصف طويل جداً أو حدث خطأ في الخادم.');
     } finally {
       setIsGenerating(false);
     }
