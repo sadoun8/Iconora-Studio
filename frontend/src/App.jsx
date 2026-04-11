@@ -228,6 +228,9 @@ export default function App() {
   const [cornerRadius, setCornerRadius] = useState(0);
   const [posX, setPosX] = useState(0);
   const [posY, setPosY] = useState(0);
+  const [angle, setAngle] = useState(0);
+  const [skewX, setSkewX] = useState(0);
+  const [charSpacing, setCharSpacing] = useState(0);
 
   // --------------------------------------------------------
   // CANVAS INIT
@@ -312,11 +315,14 @@ export default function App() {
     setCornerRadius(obj.rx || 0);
     setPosX(Math.round(obj.left || 0));
     setPosY(Math.round(obj.top || 0));
+    setAngle(Math.round(obj.angle || 0));
+    setSkewX(Math.round(obj.skewX || 0));
     if (obj.type === 'i-text' || obj.type === 'text') {
       setFontSize(obj.fontSize || 48);
       setFontFamily(obj.fontFamily || 'Cairo');
       setIsBold(obj.fontWeight === 'bold' || obj.fontWeight >= 700);
       setIsItalic(obj.fontStyle === 'italic');
+      setCharSpacing(Math.round(obj.charSpacing || 0));
     }
   }, []);
 
@@ -584,6 +590,24 @@ export default function App() {
     const n = Number(val);
     setPosY(n);
     applyProp('top', n);
+  };
+
+  const handleAngleChange = (val) => {
+    const n = Number(val);
+    setAngle(n);
+    applyProp('angle', n);
+  };
+
+  const handleSkewXChange = (val) => {
+    const n = Number(val);
+    setSkewX(n);
+    applyProp('skewX', n);
+  };
+
+  const handleCharSpacingChange = (val) => {
+    const n = Number(val);
+    setCharSpacing(n);
+    applyProp('charSpacing', n);
   };
 
   // Canvas background color — using direct property (Fabric v6+)
@@ -1447,6 +1471,20 @@ export default function App() {
                       <Italic size={14} /> مائل
                     </button>
                   </div>
+                  
+                  <div className="sep" />
+                  
+                  <div className="panel-title">تباعد الأحرف (مد الكلمة)</div>
+                  <div className="control-row">
+                    <div className="range-row" style={{ flex: 1 }}>
+                      <input
+                        type="range" className="range-slider"
+                        min="-200" max="600" value={charSpacing}
+                        onChange={e => handleCharSpacingChange(e.target.value)}
+                      />
+                      <span className="control-value">{charSpacing}</span>
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -1471,6 +1509,33 @@ export default function App() {
                       value={posY}
                       onChange={e => handlePosYChange(e.target.value)}
                     />
+                  </div>
+
+                  <div className="sep" />
+                  <div className="panel-title">الزوايا والميول</div>
+                  
+                  <div className="control-row">
+                    <span className="control-label">زاوية الدوران</span>
+                    <div className="range-row" style={{ flex: 1 }}>
+                      <input
+                        type="range" className="range-slider"
+                        min="-180" max="180" value={angle}
+                        onChange={e => handleAngleChange(e.target.value)}
+                      />
+                      <span className="control-value" style={{ minWidth: '35px' }}>{angle}°</span>
+                    </div>
+                  </div>
+
+                  <div className="control-row" style={{ marginTop: '8px' }}>
+                    <span className="control-label">الميلان (Skew)</span>
+                    <div className="range-row" style={{ flex: 1 }}>
+                      <input
+                        type="range" className="range-slider"
+                        min="-89" max="89" value={skewX}
+                        onChange={e => handleSkewXChange(e.target.value)}
+                      />
+                      <span className="control-value" style={{ minWidth: '35px' }}>{skewX}°</span>
+                    </div>
                   </div>
 
                   <div className="sep" />
