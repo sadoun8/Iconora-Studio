@@ -10,6 +10,7 @@ import {
 import {
   ICON_SIZES, ICON_TEMPLATES, ICON_SVG_ICONS,
   SIG_SIZES, SIG_TEMPLATES, SIG_SVG_ICONS, SIG_CALLIGRAPHY_FONTS,
+  ORNAMENTS
 } from './sectionConfigs.js';
 import './index.css';
 
@@ -717,6 +718,46 @@ export default function App() {
     input.click();
   };
 
+  const applyGoldGradient = () => {
+    if (!fabricCanvas) return;
+    const active = fabricCanvas.getActiveObject();
+    if (!active) return;
+    // We create a linear gold gradient bounds based on the object size
+    const grad = new fabric.Gradient({
+      type: 'linear',
+      coords: { x1: 0, y1: 0, x2: active.width, y2: active.height },
+      colorStops: [
+        { offset: 0, color: '#bf953f' },
+        { offset: 0.25, color: '#fcf6ba' },
+        { offset: 0.5, color: '#b38728' },
+        { offset: 0.75, color: '#fbf5b7' },
+        { offset: 1, color: '#aa771c' },
+      ],
+      gradientUnits: 'pixels'
+    });
+    active.set('fill', grad);
+    fabricCanvas.renderAll();
+    updateLayers();
+  };
+
+  const toggleFlipX = () => {
+    if (!fabricCanvas) return;
+    const active = fabricCanvas.getActiveObject();
+    if (active) {
+      active.set('flipX', !active.flipX);
+      fabricCanvas.requestRenderAll();
+    }
+  };
+  
+  const toggleFlipY = () => {
+    if (!fabricCanvas) return;
+    const active = fabricCanvas.getActiveObject();
+    if (active) {
+      active.set('flipY', !active.flipY);
+      fabricCanvas.requestRenderAll();
+    }
+  };
+
   // Export PNG with quality options
   const exportPng = (multiplier = 2) => {
     if (!fabricCanvas) return;
@@ -1070,6 +1111,36 @@ export default function App() {
             <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '6px', textAlign: 'center' }}>
               اضغط لإضافة أيقونة قابلة للتعديل
             </p>
+          </div>
+
+          {/* Ornaments Library */}
+          <div className="sidebar-section">
+            <div className="section-label" style={{ color: '#fbbf24' }}>👑 زخارف فاخرة</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '5px' }}>
+              {ORNAMENTS.map(orn => (
+                <button
+                  key={orn.label}
+                  title={orn.label}
+                  onClick={() => addSvgIcon(orn)}
+                  style={{
+                    background: '#2d2411',
+                    border: '1px solid #785a16',
+                    borderRadius: '6px',
+                    padding: '8px 4px',
+                    cursor: 'pointer',
+                    fontSize: '1.2rem',
+                    transition: 'all 0.15s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = '#423315'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = '#2d2411'; }}
+                >
+                  {orn.emoji}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* AI Generator */}
