@@ -381,7 +381,7 @@ class SignatureTab(ctk.CTkFrame):
 
     def _open_gallery(self):
         """Open the signature gallery dialog"""
-        from ui.signature_library import SignatureLibraryDialog
+        from legacy_ui.signature_library import SignatureLibraryDialog
         dialog = SignatureLibraryDialog(self, callback=self.load_project_data)
         dialog.grab_set()
 

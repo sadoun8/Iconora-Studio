@@ -4,16 +4,26 @@ Supports up to 4096px, text overlays, borders, backgrounds, and batch export.
 """
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps, ImageChops, ImageEnhance
 
-try:
-    from rembg import remove
-    HAS_REMBG = True
-except ImportError:
-    remove = None
-    HAS_REMBG = False
-
 import os
 import re
 from pathlib import Path
+
+remove = None
+HAS_REMBG = False
+
+
+def _ensure_rembg_loaded():
+    global remove, HAS_REMBG
+    if remove is not None or HAS_REMBG:
+        return
+    try:
+        from rembg import remove as rembg_remove
+
+        remove = rembg_remove
+        HAS_REMBG = True
+    except ImportError:
+        remove = None
+        HAS_REMBG = False
 
 class IconConverter:
     """Professional icon conversion with extensive modification tools"""
@@ -52,6 +62,7 @@ class IconConverter:
 
     def remove_background(self):
         """Remove background using AI (rembg)"""
+        _ensure_rembg_loaded()
         if not HAS_REMBG:
             raise ImportError("rembg is not installed. Install with `pip install rembg` to enable background removal.")
         if self.working_image:

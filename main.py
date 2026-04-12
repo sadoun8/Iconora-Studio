@@ -18,7 +18,7 @@ user_site = site.getusersitepackages()
 if user_site and user_site not in sys.path:
     sys.path.append(user_site)
 
-from ui.main_window import MainWindow
+from legacy_ui.main_window import MainWindow
 
 
 

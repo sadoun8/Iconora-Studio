@@ -176,7 +176,7 @@ def patch_icon_tab_convert(icon_tab_instance):
     طبّق تحسينات التحويل - Apply conversion enhancements to IconConverterTab
 
     Usage:
-        from ui.icon_tab import IconConverterTab
+        from legacy_ui.icon_tab import IconConverterTab
         from core.enhancement_patches import patch_icon_tab_convert
 
         tab = IconConverterTab(parent)

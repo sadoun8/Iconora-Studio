@@ -9,6 +9,7 @@ from pathlib import Path
 from datetime import datetime
 import logging
 
+from config import PROJECTS_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -19,9 +20,9 @@ class ProjectManager:
     PROJECT_EXTENSION = '.iconora'
     PROJECT_VERSION = '1.0'
 
-    def __init__(self, projects_folder='exports'):
+    def __init__(self, projects_folder=None):
         """Initialize project manager"""
-        self.projects_folder = projects_folder
+        self.projects_folder = str(projects_folder or PROJECTS_DIR)
         self.ensure_folder()
 
     def ensure_folder(self):

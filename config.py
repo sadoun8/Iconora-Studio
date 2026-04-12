@@ -4,6 +4,7 @@ Iconora Studio - Configuration and Constants
 """
 
 import os
+import tempfile
 from pathlib import Path
 
 # ============================================================
@@ -13,9 +14,38 @@ from pathlib import Path
 # Project root directory
 PROJECT_ROOT = Path(__file__).parent
 
-# Standard export path in user documents (Avoids Permission Errors)
+# Standard export path in user documents with a writable fallback.
 USER_DOCS = Path(os.path.expanduser("~/Documents"))
-ICONORA_DOCS = USER_DOCS / "Iconora Studio"
+
+
+def _is_directory_writable(directory: Path) -> bool:
+    """Return True when the directory can be created and written to."""
+    try:
+        directory.mkdir(parents=True, exist_ok=True)
+        with tempfile.NamedTemporaryFile(dir=directory, prefix=".iconora_probe_", delete=True) as probe:
+            probe.write(b"ok")
+            probe.flush()
+        return True
+    except Exception:
+        return False
+
+
+def _resolve_data_root() -> Path:
+    """Pick the first writable application data directory."""
+    candidates = [
+        USER_DOCS / "Iconora Studio",
+        Path(os.environ.get("LOCALAPPDATA", "")) / "Iconora Studio" if os.environ.get("LOCALAPPDATA") else None,
+        PROJECT_ROOT / ".iconora-data",
+    ]
+    for candidate in candidates:
+        if candidate and _is_directory_writable(candidate):
+            return candidate
+    fallback = PROJECT_ROOT / ".iconora-data"
+    fallback.mkdir(parents=True, exist_ok=True)
+    return fallback
+
+
+ICONORA_DOCS = _resolve_data_root()
 EXPORTS_DIR = ICONORA_DOCS / "Exports"
 PROJECTS_DIR = ICONORA_DOCS / "Projects"
 LOG_DIR = ICONORA_DOCS / "Logs"
@@ -97,4 +127,4 @@ ENABLE_LOGGING = True
 LOG_LEVEL = "INFO"
 LOG_FILE = LOG_DIR / "app.log"
 
-print("[Config] Initialized successfully.")
+print(f"[Config] Initialized successfully. Data root: {ICONORA_DOCS}")

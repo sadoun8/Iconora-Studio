@@ -4,3 +4,7 @@ requests
 rembg[cpu]
 pillow
 deep-translator
+pywebview
+svgwrite
+numpy
+scikit-image
