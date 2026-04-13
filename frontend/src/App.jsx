@@ -4,7 +4,7 @@ import {
   Sparkles, Type, Download, Layers, MousePointer2, Wand2,
   Undo2, Redo2, Trash2, Square, Circle,
   AlignCenter, Bold, Italic, Move, Image as ImageIcon,
-  Save, FolderOpen, ChevronDown, X, Star,
+  Save, FolderOpen, ChevronDown, X,
   Settings2, Palette, Pentagon, PenLine, Hexagon, LayoutTemplate,
   Copy, RefreshCw, Sliders,
   Pen, Eraser, Wind, ArrowUpDown, ZoomIn, ZoomOut, Maximize2,
@@ -34,9 +34,11 @@ import {
 } from './components/AppModals.jsx';
 import AiSidebarPanel from './components/editor/AiSidebarPanel.jsx';
 import EditorTopbar from './components/editor/EditorTopbar.jsx';
+import IconsSidebarPanel from './components/editor/IconsSidebarPanel.jsx';
 import LayersPanel from './components/editor/LayersPanel.jsx';
 import SectionSwitcher from './components/editor/SectionSwitcher.jsx';
 import SidebarTabBar from './components/editor/SidebarTabBar.jsx';
+import TemplatesSidebarPanel from './components/editor/TemplatesSidebarPanel.jsx';
 
 
 
@@ -1387,43 +1389,19 @@ export default function App() {
 
             {/* TEMPLATES TAB */}
             {sidebarTab === 'templates' && (
-              <div className="sidebar-section">
-                <div className="section-label"><Star size={12} /> قوالب جاهزة</div>
-                <div className="templates-grid">
-                  {sectionConfig.templates.map(tpl => (
-                    <div key={tpl.id} className="template-card" onClick={() => applyTemplate(tpl)}>
-                      <div className="template-preview">{tpl.emoji}</div>
-                      {tpl.label}
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <TemplatesSidebarPanel
+                templates={sectionConfig.templates}
+                applyTemplate={applyTemplate}
+              />
             )}
 
             {/* ICONS TAB */}
             {sidebarTab === 'icons' && (
-              <>
-                <div className="sidebar-section">
-                  <div className="section-label"><Sparkles size={12} /> مكتبة أيقونات</div>
-                  <div className="icons-grid">
-                    {sectionConfig.icons.map(icon => (
-                      <button key={icon.label} title={icon.label} onClick={() => addSvgIcon(icon)} className="icon-grid-btn">
-                        {icon.emoji}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div className="sidebar-section">
-                  <div className="section-label" style={{ color: '#fbbf24' }}>👑 زخارف فاخرة</div>
-                  <div className="icons-grid">
-                    {(bootstrap.ornaments || FALLBACK_BOOTSTRAP.ornaments).map(orn => (
-                      <button key={orn.label} title={orn.label} onClick={() => addSvgIcon(orn)} className="icon-grid-btn ornament">
-                        {orn.emoji}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </>
+              <IconsSidebarPanel
+                icons={sectionConfig.icons}
+                ornaments={bootstrap.ornaments || FALLBACK_BOOTSTRAP.ornaments}
+                addSvgIcon={addSvgIcon}
+              />
             )}
 
             {/* AI TAB */}
