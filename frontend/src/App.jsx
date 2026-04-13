@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as fabric from 'fabric';
 import {
-  Sparkles, Type, Download, Layers, MousePointer2, Wand2,
-  Undo2, Redo2, Trash2, Square, Circle,
-  AlignCenter, Bold, Italic, Move, Image as ImageIcon,
+  Sparkles, Type, Download, Layers, Wand2,
+  Undo2, Redo2, Trash2,
+  Bold, Italic, Move,
   Save, FolderOpen, ChevronDown, X,
   Settings2, Palette, Pentagon, PenLine, Hexagon, LayoutTemplate,
-  Copy, RefreshCw, Sliders,
-  Pen, Eraser, Wind, ArrowUpDown, ZoomIn, ZoomOut, Maximize2,
+  Copy,
+  Eraser, Wind, ArrowUpDown, ZoomIn, ZoomOut, Maximize2,
   AlignLeft, AlignRight, AlignJustify, RotateCcw, Crop,
-  FlipHorizontal, FlipVertical, ChevronUp, ChevronRight,
+  ChevronUp, ChevronRight,
 } from 'lucide-react';
 import { FALLBACK_BOOTSTRAP } from './runtime/bootstrapFallback.js';
 import './index.css';
@@ -39,6 +39,7 @@ import LayersPanel from './components/editor/LayersPanel.jsx';
 import SectionSwitcher from './components/editor/SectionSwitcher.jsx';
 import SidebarTabBar from './components/editor/SidebarTabBar.jsx';
 import TemplatesSidebarPanel from './components/editor/TemplatesSidebarPanel.jsx';
+import ToolsSidebarPanel from './components/editor/ToolsSidebarPanel.jsx';
 
 
 
@@ -804,6 +805,16 @@ export default function App() {
   };
 
   // ── Zoom ──
+  const refreshDrawingBrush = useCallback(() => {
+    if (!fabricCanvas) return;
+    fabricCanvas.isDrawingMode = false;
+    setTimeout(() => {
+      if (fabricCanvas) {
+        fabricCanvas.isDrawingMode = activeTool === 'draw';
+      }
+    }, 10);
+  }, [activeTool, fabricCanvas]);
+
   const changeZoom = (delta) => {
     if (!fabricCanvas) return;
     const newZoom = Math.max(10, Math.min(400, zoom + delta));
@@ -1284,108 +1295,34 @@ export default function App() {
           <div className="sidebar-content">
             {/* TOOLS TAB */}
             {sidebarTab === 'tools' && (
-              <>
-                <div className="sidebar-section">
-                  <div className="section-label">🖱 وضع التحرير</div>
-                  <div className="tool-grid">
-                    <button className={`tool-btn ${activeTool === 'select' ? 'active' : ''}`} onClick={activateSelectTool}>
-                      <MousePointer2 size={17} /> تحديد
-                    </button>
-                    {section === 'signature' && (
-                      <button className={`tool-btn ${activeTool === 'draw' ? 'active' : ''}`} onClick={() => setActiveTool('draw')}>
-                        <Pen size={17} /> فرشاة
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* Draw settings (signature mode only) */}
-                {section === 'signature' && activeTool === 'draw' && (
-                  <div className="sidebar-section">
-                    <div className="section-label">🖊 إعدادات الريشة</div>
-                    <div className="control-row">
-                      <span className="control-label">اللون</span>
-                      <div className="color-input-wrapper" style={{ width: 28, height: 28 }}>
-                        <input type="color" value={drawColor} onChange={e => setDrawColor(e.target.value)} />
-                      </div>
-                    </div>
-                    <div className="control-row">
-                      <span className="control-label">السُمك</span>
-                      <div className="range-row" style={{ flex: 1 }}>
-                        <input type="range" className="range-slider" min="1" max="30" value={drawSize} onChange={e => setDrawSize(Number(e.target.value))} />
-                        <span className="control-value">{drawSize}px</span>
-                      </div>
-                    </div>
-                    {/* Quick color palette for drawing */}
-                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '6px' }}>
-                      {['#0f1115', '#ffffff', '#6366f1', '#f59e0b', '#ec4899', '#22c55e', '#c9a227', '#ef4444'].map(c => (
-                        <div key={c} onClick={() => setDrawColor(c)} style={{
-                          width: 22, height: 22, borderRadius: 4, background: c, cursor: 'pointer',
-                          border: drawColor === c ? '2px solid var(--primary)' : '1px solid var(--border-2)',
-                          flexShrink: 0,
-                        }} />
-                      ))}
-                    </div>
-                    <button className="btn btn-ghost btn-sm" style={{ width: '100%', marginTop: '8px' }}
-                      onClick={() => { if (fabricCanvas) { fabricCanvas.isDrawingMode = false; setTimeout(() => { if (fabricCanvas) fabricCanvas.isDrawingMode = activeTool === 'draw'; }, 10); } }}>
-                      <RefreshCw size={13} /> مسح الريشة
-                    </button>
-                  </div>
-                )}
-
-                <div className="sidebar-section">
-                  <div className="section-label">✦ إضافة عناصر</div>
-                  <div className="tool-grid">
-                    <button className="tool-btn" onClick={addText}><Type size={17} /> نص</button>
-                    <button className="tool-btn" onClick={addRect}><Square size={17} /> مستطيل</button>
-                    <button className="tool-btn" onClick={addCircle}><Circle size={17} /> دائرة</button>
-                    <button className="tool-btn" onClick={addPolygon}><Hexagon size={17} /> مضلع</button>
-                    <button className="tool-btn" onClick={addStar}><Star size={17} /> نجمة</button>
-                    <button className="tool-btn" onClick={loadImage}><ImageIcon size={17} /> صورة</button>
-                  </div>
-                </div>
-
-                {/* Curved Text */}
-                <div className="sidebar-section">
-                  <div className="section-label">🔄 نص مقوس</div>
-                  <button className="btn btn-ghost btn-sm" style={{ width: '100%' }} onClick={() => openCurvedTextModal()}>
-                    <AlignCenter size={14} /> إضافة نص على قوس
-                  </button>
-                  {isCurvedText && (
-                    <button className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: '6px' }} onClick={() => openCurvedTextModal(activeObject)}>
-                      ✏ تعديل النص المقوس المحدد
-                    </button>
-                  )}
-                </div>
-
-                {/* Gradients */}
-                <div className="sidebar-section">
-                  <div className="section-label">🎨 تدرجات احترافية</div>
-                  <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                    <button className="gradient-btn" style={{ background: 'linear-gradient(135deg,#bf953f,#fcf6ba,#b38728)' }} onClick={applyGoldGradient} title="ذهبي">ذهبي</button>
-                    <button className="gradient-btn" style={{ background: 'linear-gradient(135deg,#bdc3c7,#f8f8f8,#7f8c8d)' }} onClick={applySilverGradient} title="فضي">فضي</button>
-                    <button className="gradient-btn" style={{ background: 'linear-gradient(135deg,#6366f1,#a855f7,#ec4899)' }} onClick={applyPurpleGradient} title="بنفسجي">إبداعي</button>
-                  </div>
-                </div>
-
-                {/* Flip */}
-                <div className="sidebar-section">
-                  <div className="section-label">↔ انعكاس</div>
-                  <div style={{ display: 'flex', gap: '6px' }}>
-                    <button className="btn btn-ghost btn-sm" style={{ flex: 1 }} onClick={toggleFlipX}><FlipHorizontal size={14} /> أفقي</button>
-                    <button className="btn btn-ghost btn-sm" style={{ flex: 1 }} onClick={toggleFlipY}><FlipVertical size={14} /> رأسي</button>
-                  </div>
-                </div>
-
-                {/* SVG Filters */}
-                <div className="sidebar-section">
-                  <div className="section-label">✨ فلاتر SVG</div>
-                  <button className="btn btn-ghost btn-sm" style={{ width: '100%' }} onClick={() => setShowFilterModal(true)}>
-                    <Sliders size={14} /> إعدادات الفلاتر
-                  </button>
-                </div>
-              </>
+              <ToolsSidebarPanel
+                activeTool={activeTool}
+                activateSelectTool={activateSelectTool}
+                section={section}
+                setActiveTool={setActiveTool}
+                drawColor={drawColor}
+                setDrawColor={setDrawColor}
+                drawSize={drawSize}
+                setDrawSize={setDrawSize}
+                onRefreshDrawingBrush={refreshDrawingBrush}
+                addText={addText}
+                addRect={addRect}
+                addCircle={addCircle}
+                addPolygon={addPolygon}
+                addStar={addStar}
+                loadImage={loadImage}
+                openCurvedTextModal={openCurvedTextModal}
+                isCurvedText={isCurvedText}
+                activeObject={activeObject}
+                applyGoldGradient={applyGoldGradient}
+                applySilverGradient={applySilverGradient}
+                applyPurpleGradient={applyPurpleGradient}
+                toggleFlipX={toggleFlipX}
+                toggleFlipY={toggleFlipY}
+                onOpenFilters={() => setShowFilterModal(true)}
+              />
             )}
+
 
             {/* TEMPLATES TAB */}
             {sidebarTab === 'templates' && (
