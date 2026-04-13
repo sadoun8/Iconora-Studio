@@ -99,6 +99,7 @@ body {
   gap: 12px;
   flex-shrink: 0;
   z-index: 100;
+  min-width: 0;
 }
 
 .topbar-brand {
@@ -109,6 +110,7 @@ body {
   font-size: 1.1rem;
   letter-spacing: -0.02em;
   white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 .topbar-brand .logo-icon {
@@ -131,17 +133,37 @@ body {
   color: var(--primary-light); 
 }
 
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 0 1 auto;
+}
+
 .topbar-center {
   display: flex;
   align-items: center;
   gap: 4px;
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+
+.topbar-center::-webkit-scrollbar { display: none; }
 
 .topbar-actions {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
+  flex: 0 1 auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
 }
+
+.topbar-actions::-webkit-scrollbar { display: none; }
 
 /* History Buttons */
 .history-btn {
@@ -406,6 +428,36 @@ body {
 .panel-section {
   padding: 14px;
   border-bottom: 1px solid var(--border);
+}
+
+.panel-section-nav {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
+  backdrop-filter: blur(8px);
+}
+
+.panel-section-switcher {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.sidebar-section-switcher-side {
+  padding: 10px 12px 8px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg-panel-2), var(--bg-panel));
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.panel-section-tab {
+  flex: 1 1 calc(33.333% - 4px);
+  min-width: 82px;
+  justify-content: center;
+  background: var(--bg-active);
 }
 
 .panel-section:last-child {
@@ -907,6 +959,66 @@ body {
 .section-tab:hover { color: var(--text-secondary); background: var(--bg-hover); }
 .section-tab.active { font-weight: 700; background: var(--primary); color: #fff; }
 
+@media (max-width: 1500px) {
+  .topbar {
+    gap: 8px;
+    padding: 0 10px;
+  }
+
+  .topbar-brand .brand-name {
+    display: none;
+  }
+
+  .topbar-nav .section-tab {
+    padding: 6px 10px;
+    font-size: 0.74rem;
+  }
+
+  .topbar-center .snap-toggle span {
+    display: none;
+  }
+
+  .topbar-center .styled-select {
+    max-width: 120px;
+  }
+
+  .topbar-actions .badge {
+    display: none;
+  }
+
+  .topbar-actions .btn.btn-ghost.btn-sm {
+    font-size: 0;
+    padding-inline: 9px;
+    min-width: 34px;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .topbar-actions .btn.btn-ghost.btn-sm svg {
+    margin: 0;
+  }
+}
+
+@media (max-width: 1180px) {
+  .topbar-center {
+    flex: 0 1 auto;
+    max-width: 34%;
+  }
+
+  .topbar-actions {
+    max-width: 42%;
+  }
+
+  .topbar-nav .section-tab {
+    font-size: 0;
+    padding: 7px 9px;
+  }
+
+  .topbar-nav .section-tab svg {
+    margin: 0;
+  }
+}
+
 /* ============================================================
    V3.0 — SIDEBAR TAB BAR
    ============================================================ */
@@ -1215,4 +1327,3 @@ body {
   pointer-events: none;
   z-index: 10;
 }
-

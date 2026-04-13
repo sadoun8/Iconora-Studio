@@ -11,11 +11,7 @@ import {
   AlignLeft, AlignRight, AlignJustify, RotateCcw, Crop,
   FlipHorizontal, FlipVertical, ChevronUp, ChevronRight,
 } from 'lucide-react';
-import {
-  ICON_SIZES, ICON_TEMPLATES, ICON_SVG_ICONS,
-  SIG_SIZES, SIG_TEMPLATES, SIG_SVG_ICONS, SIG_CALLIGRAPHY_FONTS,
-  ORNAMENTS
-} from './sectionConfigs.js';
+import { FALLBACK_BOOTSTRAP } from './runtime/bootstrapFallback.js';
 import './index.css';
 import {
   createProject,
@@ -39,142 +35,7 @@ import {
   SettingsModal,
 } from './components/AppModals.jsx';
 
-// ============================================================
-// CONSTANTS
-// ============================================================
-const ARABIC_FONTS = [
-  { label: 'Cairo (عصري)', value: 'Cairo' },
-  { label: 'Tajawal (رشيق)', value: 'Tajawal' },
-  { label: 'Amiri (كلاسيكي)', value: 'Amiri' },
-  { label: 'IBM Plex Arabic', value: 'IBM Plex Sans Arabic' },
-  { label: 'Scheherazade', value: 'Scheherazade New' },
-  { label: 'Noto Naskh', value: 'Noto Naskh Arabic' },
-];
 
-const LATIN_FONTS = [
-  { label: 'Outfit (Modern)', value: 'Outfit' },
-  { label: 'Arial', value: 'Arial' },
-  { label: 'Georgia', value: 'Georgia' },
-  { label: 'Courier New', value: 'Courier New' },
-];
-
-const ALL_FONTS = [...ARABIC_FONTS, ...LATIN_FONTS];
-
-const CANVAS_SIZES = [
-  { label: 'مربع 800×800', w: 800, h: 800 },
-  { label: 'أفقي 1200×600', w: 1200, h: 600 },
-  { label: 'عمودي 600×900', w: 600, h: 900 },
-  { label: 'شعار 512×512', w: 512, h: 512 },
-];
-
-const TEMPLATES = [
-  {
-    id: 'coffee', label: 'مقهى', emoji: '☕', bg: '#2d1b0e',
-    objects: [
-      { type: 'rect', fill: '#c8860a', rx: 70, ry: 70, width: 320, height: 320, left: 240, top: 240 },
-      { type: 'text', text: 'مَقهى', fontSize: 80, fontFamily: 'Amiri', fill: '#fff', left: 270, top: 288, fontWeight: 'bold' },
-      { type: 'text', text: 'C A F É', fontSize: 20, fontFamily: 'Outfit', fill: '#c8860a', left: 318, top: 420, charSpacing: 250 },
-    ]
-  },
-  {
-    id: 'tech', label: 'تقنية', emoji: '⚡', bg: '#0d0d1f',
-    objects: [
-      { type: 'rect', fill: 'transparent', stroke: '#6366f1', strokeWidth: 3, rx: 16, ry: 16, width: 340, height: 120, left: 230, top: 310 },
-      { type: 'text', text: 'TECH', fontSize: 68, fontFamily: 'Outfit', fill: '#818cf8', left: 265, top: 316, fontWeight: '800' },
-      { type: 'text', text: 'نصنع المستقبل', fontSize: 22, fontFamily: 'Cairo', fill: '#64748b', left: 280, top: 450 },
-    ]
-  },
-  {
-    id: 'elegant', label: 'أناقة', emoji: '✨', bg: '#080808',
-    objects: [
-      { type: 'text', text: 'LUXE', fontSize: 96, fontFamily: 'Georgia', fill: '#c9a227', left: 230, top: 310, fontWeight: 'bold' },
-      { type: 'text', text: '— النخبـة —', fontSize: 26, fontFamily: 'Amiri', fill: '#64748b', left: 290, top: 435 },
-    ]
-  },
-  {
-    id: 'minimal', label: 'مينيمال', emoji: '◻️', bg: '#f8fafc',
-    objects: [
-      { type: 'rect', fill: '#0f1115', rx: 10, ry: 10, width: 340, height: 100, left: 230, top: 350 },
-      { type: 'text', text: 'BRAND', fontSize: 50, fontFamily: 'Outfit', fill: '#ffffff', left: 265, top: 368, fontWeight: '700', charSpacing: 200 },
-    ]
-  },
-  {
-    id: 'sports', label: 'رياضة', emoji: '🏆', bg: '#0a1628',
-    objects: [
-      { type: 'rect', fill: '#f59e0b', rx: 0, ry: 0, width: 400, height: 12, left: 200, top: 390 },
-      { type: 'text', text: 'CHAMPIONS', fontSize: 54, fontFamily: 'Outfit', fill: '#ffffff', left: 200, top: 310, fontWeight: '800', charSpacing: 80 },
-      { type: 'text', text: 'أبطال', fontSize: 40, fontFamily: 'Cairo', fill: '#f59e0b', left: 320, top: 415, fontWeight: 'bold' },
-    ]
-  },
-  {
-    id: 'restaurant', label: 'مطعم', emoji: '🍽️', bg: '#1a0a04',
-    objects: [
-      { type: 'circle', fill: 'transparent', stroke: '#b45309', strokeWidth: 4, radius: 160, left: 240, top: 240 },
-      { type: 'text', text: 'مطعــم', fontSize: 62, fontFamily: 'Amiri', fill: '#fbbf24', left: 280, top: 318, fontWeight: 'bold' },
-      { type: 'text', text: 'RESTAURANT', fontSize: 16, fontFamily: 'Outfit', fill: '#b45309', left: 263, top: 407, charSpacing: 180 },
-    ]
-  },
-  {
-    id: 'studio', label: 'استوديو', emoji: '🎨', bg: '#0f0520',
-    objects: [
-      { type: 'rect', fill: '#7c3aed', rx: 50, ry: 50, width: 120, height: 120, left: 340, top: 240 },
-      { type: 'text', text: 'STUDIO', fontSize: 56, fontFamily: 'Outfit', fill: '#ffffff', left: 248, top: 385, fontWeight: '800', charSpacing: 120 },
-      { type: 'text', text: 'تصميم إبداعي', fontSize: 20, fontFamily: 'Cairo', fill: '#a78bfa', left: 295, top: 455 },
-    ]
-  },
-  {
-    id: 'medical', label: 'طب', emoji: '⚕️', bg: '#f0fdf4',
-    objects: [
-      { type: 'circle', fill: '#16a34a', radius: 100, left: 300, top: 200 },
-      { type: 'rect', fill: '#ffffff', rx: 4, ry: 4, width: 30, height: 100, left: 370, top: 250 },
-      { type: 'rect', fill: '#ffffff', rx: 4, ry: 4, width: 100, height: 30, left: 335, top: 285 },
-      { type: 'text', text: 'عيادة الشفاء', fontSize: 38, fontFamily: 'Cairo', fill: '#15803d', left: 275, top: 440, fontWeight: 'bold' },
-    ]
-  },
-];
-
-const SVG_ICONS = [
-  { label: 'نجمة', emoji: '⭐', svg: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z' },
-  { label: 'قلب', emoji: '❤', svg: 'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z' },
-  { label: 'برق', emoji: '⚡', svg: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z' },
-  { label: 'خاتم', emoji: '💎', svg: 'M6 2l-4 6 10 14L22 8l-4-6H6zM3.43 8L6.37 4h11.26l2.94 4H3.43zm8.57 11.8L4.56 10h14.88L12 19.8z' },
-  { label: 'شعلة', emoji: '🔥', svg: 'M13.5 0.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67z' },
-  { label: 'ورقة', emoji: '🍃', svg: 'M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3c-1 2-8 2-8 2z' },
-  { label: 'هلال', emoji: '🌙', svg: 'M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z' },
-  { label: 'عين', emoji: '👁', svg: 'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zm11 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6z' },
-  { label: 'جبل', emoji: '⛰️', svg: 'M3 17l6-12 4 7 2.5-4L21 17H3z' },
-  { label: 'اللانهاية', emoji: '∞', svg: 'M18.6 6.62c-1.44 0-2.8.56-3.77 1.53L12 10.66 10.48 12h.01L7.8 14.39c-.64.64-1.49.99-2.4.99-1.87 0-3.39-1.51-3.39-3.38S3.53 8.62 5.4 8.62c.91 0 1.76.35 2.44 1.03l1.13 1 1.51-1.34L9.22 8.2C8.2 7.18 6.84 6.62 5.4 6.62 2.42 6.62 0 9.04 0 12s2.42 5.38 5.4 5.38c1.44 0 2.8-.56 3.77-1.53l2.83-2.51.01.01L13.52 12h-.01l2.69-2.39c.64-.64 1.49-.99 2.4-.99 1.87 0 3.39 1.51 3.39 3.38s-1.52 3.38-3.39 3.38c-.9 0-1.76-.35-2.44-1.03l-1.14-1.01-1.51 1.34 1.27 1.12c1.02 1.01 2.37 1.57 3.82 1.57 2.98 0 5.4-2.41 5.4-5.38s-2.42-5.38-5.4-5.38z' },
-  { label: 'موجة', emoji: '🌊', svg: 'M2 8c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0M2 14c1.5-2 3-2 4.5 0s3 2 4.5 0 3-2 4.5 0 3 2 4.5 0' },
-  { label: 'صاروخ', emoji: '🚀', svg: 'M12 2.5s4 2 5.5 8-2 10.5-5.5 11-5.5-1-7-5.5S5 7.5 12 2.5z M9 11h6M10 14h4' },
-];
-
-const FALLBACK_BOOTSTRAP = {
-  fonts: {
-    general: ALL_FONTS,
-    signature: [...SIG_CALLIGRAPHY_FONTS, ...ALL_FONTS.filter(f => !SIG_CALLIGRAPHY_FONTS.find(s => s.value === f.value))],
-  },
-  templates: {
-    logo: TEMPLATES,
-    icon: ICON_TEMPLATES,
-    signature: SIG_TEMPLATES,
-  },
-  icons: {
-    logo: SVG_ICONS,
-    icon: ICON_SVG_ICONS,
-    signature: SIG_SVG_ICONS,
-  },
-  ornaments: ORNAMENTS,
-  sizes: {
-    logo: CANVAS_SIZES,
-    icon: ICON_SIZES,
-    signature: SIG_SIZES,
-  },
-  settings: {
-    ai_enabled: true,
-    language: 'en',
-    theme: 'dark',
-  },
-};
 
 const DEFAULT_SETTINGS_DRAFT = {
   theme: 'dark',
@@ -202,24 +63,14 @@ function getLayerLabel(obj) {
   return obj.type || 'عنصر';
 }
 
-// Catmull-Rom to Bezier for smooth signature paths
-function catmullRomToBezier(points) {
-  if (points.length < 2) return '';
-  let d = `M ${points[0].x} ${points[0].y}`;
-  for (let i = 0; i < points.length - 1; i++) {
-    const p0 = points[Math.max(0, i - 1)];
-    const p1 = points[i];
-    const p2 = points[i + 1];
-    const p3 = points[Math.min(points.length - 1, i + 2)];
-    const cp1x = p1.x + (p2.x - p0.x) / 6;
-    const cp1y = p1.y + (p2.y - p0.y) / 6;
-    const cp2x = p2.x - (p3.x - p1.x) / 6;
-    const cp2y = p2.y - (p3.y - p1.y) / 6;
-    d += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${p2.x} ${p2.y}`;
-  }
-  return d;
+function normalizeAiErrorMessage(message) {
+  if (!message) return '';
+  return message.startsWith('ط')
+    ? 'تعذر توليد الشعار. تأكد من تشغيل الخادم المحلي ثم أعد المحاولة.'
+    : message;
 }
 
+// Catmull-Rom to Bezier for smooth signature paths
 // ============================================================
 // MAIN APP
 // ============================================================
@@ -228,8 +79,8 @@ export default function App() {
   const [fabricCanvas, setFabricCanvas] = useState(null);
   const [activeObject, setActiveObject] = useState(null);
   const [layers, setLayers] = useState([]);
-  const [history, setHistory] = useState([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [, setHistory] = useState([]);
+  const [, setHistoryIndex] = useState(-1);
   const historyRef = useRef({ stack: [], idx: -1, paused: false });
   const [canvasSize, setCanvasSize] = useState({ w: 800, h: 800 });
   const [zoom, setZoom] = useState(100);
@@ -240,10 +91,6 @@ export default function App() {
   const [activeTool, setActiveTool] = useState('select'); // select | pen | draw | eraser
 
   // ── Drawing state for freehand signature ──
-  const isDrawingRef = useRef(false);
-  const drawPointsRef = useRef([]);
-  const drawTimesRef = useRef([]);
-  const drawOverlayRef = useRef(null); // overlay canvas for live preview
   const drawColorRef = useRef('#0f1115');
   const drawSizeRef = useRef(4);
 
@@ -313,9 +160,20 @@ export default function App() {
   const runtimeSettings = { ...DEFAULT_SETTINGS_DRAFT, ...(bootstrap.settings || {}) };
   const isAiEnabled = runtimeSettings.ai_enabled !== false;
 
-  const showNotice = useCallback((title, message) => {
-    setNoticeModal({ open: true, title, message });
+  const normalizeUiMessage = useCallback((message) => {
+    if (typeof message !== 'string') return message;
+    if (message === 'Failed to fetch') {
+      return 'تعذر الاتصال بالخادم المحلي. تأكد من تشغيل backend على 127.0.0.1:8000 ثم حدّث الصفحة.';
+    }
+    if (message.includes('ط·ع¾ط·') || message.includes('طھط¹ط°ط± طھظˆظ„ظٹط¯')) {
+      return 'تعذر توليد الشعار. تأكد من تشغيل الخادم المحلي ثم أعد المحاولة.';
+    }
+    return message;
   }, []);
+
+  const showNotice = useCallback((title, message) => {
+    setNoticeModal({ open: true, title, message: normalizeUiMessage(message) });
+  }, [normalizeUiMessage]);
 
   // AI State
   const [aiPrompt, setAiPrompt] = useState('');
@@ -350,7 +208,6 @@ export default function App() {
 
   // ── Sidebar collapse ──
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [panelCollapsed, setPanelCollapsed] = useState(false);
 
   // ── Active sidebar tab ──
   const [sidebarTab, setSidebarTab] = useState('tools'); // tools | templates | icons | ai | layers
@@ -485,7 +342,11 @@ export default function App() {
       fabricCanvas.selection = true;
       fabricCanvas.defaultCursor = 'default';
     } else if (activeTool === 'draw') {
+      if (!fabricCanvas.freeDrawingBrush) {
+        fabricCanvas.freeDrawingBrush = new fabric.PencilBrush(fabricCanvas);
+      }
       fabricCanvas.isDrawingMode = true;
+      fabricCanvas.selection = false;
       fabricCanvas.freeDrawingBrush.color = drawColor;
       fabricCanvas.freeDrawingBrush.width = drawSize;
       fabricCanvas.freeDrawingBrush.decimate = 4;
@@ -761,24 +622,6 @@ export default function App() {
   };
 
   // ── CURVED TEXT (SVG textPath) — with unique ID & edit-in-place ──
-  const buildCurvedSvgStr = (cw, ch, r, startAngleDeg, font, size, color, text) => {
-    const cx = cw / 2, cy = ch / 2;
-    const startAngleRad = (startAngleDeg * Math.PI) / 180;
-    const endAngleRad = startAngleRad + Math.PI;
-    const x1 = cx + r * Math.cos(startAngleRad);
-    const y1 = cy + r * Math.sin(startAngleRad);
-    const x2 = cx + r * Math.cos(endAngleRad);
-    const y2 = cy + r * Math.sin(endAngleRad);
-    // Use a stable (non-timestamp) path id so two renders don't produce duplicate IDs
-    const pathId = 'curved-path-preview';
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${cw}" height="${ch}" overflow="visible">
-  <defs><path id="${pathId}" d="M ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2}"/></defs>
-  <text font-family="${font}" font-size="${size}" fill="${color}" overflow="visible">
-    <textPath href="#${pathId}">${text}</textPath>
-  </text>
-</svg>`;
-  };
-
     // Curved Text COMMIT (Converting perfect SVG to Fabric Image)
     const commitCurvedText = (overrideParam = null) => {
       if (!fabricCanvas) return;
@@ -1142,13 +985,37 @@ export default function App() {
     setShowSaveProjectModal(true);
   };
 
+  const openAiWorkspace = useCallback(() => {
+    setSidebarCollapsed(false);
+    setSidebarTab(current => (current === 'ai' ? 'tools' : 'ai'));
+  }, []);
+
+  const activateSelectTool = useCallback(() => {
+    setSidebarCollapsed(false);
+    setSidebarTab('tools');
+    setActiveTool('select');
+    if (!fabricCanvas) return;
+    fabricCanvas.isDrawingMode = false;
+    fabricCanvas.selection = true;
+    fabricCanvas.defaultCursor = 'default';
+    fabricCanvas.forEachObject((obj) => {
+      const objId = obj.__uid;
+      const state = objId ? layerStates[objId] : null;
+      const isVisible = state?.visible !== false;
+      const isLocked = state?.locked === true;
+      obj.set('selectable', isVisible && !isLocked);
+      obj.set('evented', isVisible && !isLocked);
+    });
+    fabricCanvas.requestRenderAll();
+  }, [fabricCanvas, layerStates]);
+
   const openSettingsModal = () => {
     setSettingsDraft({ ...DEFAULT_SETTINGS_DRAFT, ...(bootstrap.settings || {}) });
     setSettingsError('');
     setShowSettingsModal(true);
   };
 
-  const persistSettings = async () => {
+  const persistSettings = useCallback(async () => {
     setIsSavingSettings(true);
     setSettingsError('');
     try {
@@ -1163,6 +1030,9 @@ export default function App() {
           : prev
       ));
       setShowSettingsModal(false);
+      if (payload.ai_enabled !== false) {
+        openAiWorkspace();
+      }
       showNotice('تم حفظ الإعدادات', 'تم تحديث إعدادات التطبيق المحلية بنجاح.');
       return true;
     } catch (error) {
@@ -1172,7 +1042,7 @@ export default function App() {
     } finally {
       setIsSavingSettings(false);
     }
-  };
+  }, [openAiWorkspace, settingsDraft, showNotice]);
 
   const loadProjectFromApi = async () => {
     if (!fabricCanvas) return;
@@ -1218,7 +1088,7 @@ export default function App() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `${(currentProjectName || payload.name || 'iconora_project').replace(/[<>:\"/\\\\|?*]+/g, '_')}.iconora`;
+      link.download = `${(currentProjectName || payload.name || 'iconora_project').replace(/[<>:"/\\|?*]+/g, '_')}.iconora`;
       link.click();
       URL.revokeObjectURL(url);
       showNotice('تم التصدير', 'تم تصدير ملف المشروع بنجاح.');
@@ -1470,19 +1340,6 @@ export default function App() {
           <span className="badge">v3.0</span>
         </div>
 
-        {/* Section Nav */}
-        <nav style={{ display: 'flex', gap: '4px', background: 'var(--bg-active)', borderRadius: '10px', padding: '3px' }}>
-          {[
-            { id: 'logo', icon: <LayoutTemplate size={14} />, label: 'لوجو' },
-            { id: 'icon', icon: <Hexagon size={14} />, label: 'أيقونات' },
-            { id: 'signature', icon: <PenLine size={14} />, label: 'توقيع' },
-          ].map(tab => (
-            <button key={tab.id} onClick={() => setSection(tab.id)} className={`section-tab ${section === tab.id ? 'active' : ''}`}>
-              {tab.icon} {tab.label}
-            </button>
-          ))}
-        </nav>
-
         {/* Center controls */}
         <div className="topbar-center" style={{ gap: '6px' }}>
           <button className="history-btn" onClick={undo} disabled={!canUndo} title="تراجع Ctrl+Z"><Undo2 size={15} /></button>
@@ -1509,6 +1366,18 @@ export default function App() {
 
         {/* Actions */}
         <div className="topbar-actions">
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={openAiWorkspace}
+            title="فتح أو إغلاق لوحة الذكاء الاصطناعي"
+            style={{
+              color: isAiEnabled ? 'var(--success)' : 'var(--danger)',
+              borderColor: isAiEnabled ? 'rgba(34,197,94,0.25)' : 'rgba(239,68,68,0.25)',
+            }}
+          >
+            <Wand2 size={14} /> {isAiEnabled ? 'AI On' : 'AI Off'}
+          </button>
+          <div className="sep-v" />
           <button className="btn btn-ghost btn-sm" onClick={openSettingsModal}><Settings2 size={14} /> إعدادات</button>
           <div className="sep-v" />
           <button className="btn btn-ghost btn-sm" onClick={openSaveProjectModal}><Save size={14} /> حفظ</button>
@@ -1536,6 +1405,21 @@ export default function App() {
 
         {/* ====== LEFT SIDEBAR ====== */}
         <aside className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
+          <div className="sidebar-section-switcher sidebar-section-switcher-side">
+            {[
+              { id: 'logo', icon: <LayoutTemplate size={14} />, label: 'لوجو' },
+              { id: 'icon', icon: <Hexagon size={14} />, label: 'أيقونات' },
+              { id: 'signature', icon: <PenLine size={14} />, label: 'توقيع' },
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setSection(tab.id)}
+                className={`section-tab panel-section-tab ${section === tab.id ? 'active' : ''}`}
+              >
+                {tab.icon} {tab.label}
+              </button>
+            ))}
+          </div>
           {/* Sidebar tab bar */}
           <div className="sidebar-tabbar">
             {[
@@ -1559,7 +1443,7 @@ export default function App() {
                 <div className="sidebar-section">
                   <div className="section-label">🖱 وضع التحرير</div>
                   <div className="tool-grid">
-                    <button className={`tool-btn ${activeTool === 'select' ? 'active' : ''}`} onClick={() => setActiveTool('select')}>
+                    <button className={`tool-btn ${activeTool === 'select' ? 'active' : ''}`} onClick={activateSelectTool}>
                       <MousePointer2 size={17} /> تحديد
                     </button>
                     {section === 'signature' && (
@@ -1711,28 +1595,28 @@ export default function App() {
                     disabled={!isAiEnabled}
                   />
                   {!isAiEnabled && (
-                    <div className="ai-error"><TriangleAlert size={13} /> الذكاء الاصطناعي معطل حالياً من الإعدادات.</div>
+                    <div className="ai-error"><TriangleAlert size={13} /> الذكاء الاصطناعي معطّل حالياً من الإعدادات.</div>
                   )}
                   {aiError && (
-                    <div className="ai-error"><TriangleAlert size={13} /> {aiError}</div>
+                    <div className="ai-error"><TriangleAlert size={13} /> {normalizeAiErrorMessage(aiError)}</div>
                   )}
                   <button className={`btn btn-primary btn-full ${isGenerating ? 'generating-indicator' : ''}`}
                     onClick={handleGenerateLogoViaApi} disabled={!isAiEnabled || isGenerating || !aiPrompt.trim()}>
-                    {isGenerating ? <><Loader2 size={15} className="animate-spin" /> جاري التوليد...</> : <><Wand2 size={15} /> توليد ودمج</>}
+                    {isGenerating ? <><Loader2 size={15} className="animate-spin" /> جارٍ التوليد...</> : <><Wand2 size={15} /> توليد ودمج</>}
                   </button>
-                    <p className="ai-note">
-                      Ctrl+Enter للتوليد السريع
-                      <br />
-                      <span style={{ color: 'var(--text-faint)' }}>
-                        {bootstrapError
-                          ? 'وضع fallback للأصول مفعل'
-                          : healthError
-                            ? 'تعذر التحقق من صحة backend'
-                            : healthInfo?.status === 'ok'
-                              ? `متصل بواجهة API المحلية${healthInfo.version ? ` • v${healthInfo.version}` : ''}`
-                              : 'متصل بواجهة API المحلية'}
-                      </span>
-                    </p>
+                  <p className="ai-note">
+                    `Ctrl+Enter` للتوليد السريع
+                    <br />
+                    <span style={{ color: 'var(--text-faint)' }}>
+                      {bootstrapError
+                        ? 'تم تفعيل بيانات احتياطية للأصول.'
+                        : healthError
+                          ? 'تعذر الاتصال بالخادم المحلي على 127.0.0.1:8000.'
+                          : healthInfo?.status === 'ok'
+                            ? `الخادم المحلي متصل${healthInfo.version ? ` • v${healthInfo.version}` : ''}`
+                            : 'الخادم المحلي متصل.'}
+                    </span>
+                  </p>
                 </div>
               </div>
             )}
@@ -2147,205 +2031,6 @@ export default function App() {
         message={noticeModal.message}
         onClose={() => setNoticeModal({ open: false, title: '', message: '' })}
       />
-
-      {false && showSettingsModal && (
-        <div className="modal-overlay" onClick={() => setShowSettingsModal(false)}>
-          <div className="modal-box" onClick={e => e.stopPropagation()} style={{ maxWidth: '560px' }}>
-            <div className="modal-header">
-              <span>إعدادات التطبيق</span>
-              <button className="modal-close" onClick={() => setShowSettingsModal(false)}><X size={16} /></button>
-            </div>
-            <div className="modal-body">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div className="modal-field">
-                  <label>Theme</label>
-                  <select
-                    className="styled-select"
-                    value={settingsDraft.theme}
-                    onChange={e => setSettingsDraft(prev => ({ ...prev, theme: e.target.value }))}
-                  >
-                    <option value="dark">Dark</option>
-                    <option value="light">Light</option>
-                  </select>
-                </div>
-                <div className="modal-field">
-                  <label>Language</label>
-                  <select
-                    className="styled-select"
-                    value={settingsDraft.language}
-                    onChange={e => setSettingsDraft(prev => ({ ...prev, language: e.target.value }))}
-                  >
-                    <option value="ar">Arabic</option>
-                    <option value="en">English</option>
-                  </select>
-                </div>
-              </div>
-              <div className="modal-field">
-                <label>AI Model</label>
-                <input
-                  className="modal-input"
-                  value={settingsDraft.ai_model}
-                  onChange={e => setSettingsDraft(prev => ({ ...prev, ai_model: e.target.value }))}
-                />
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div className="modal-field">
-                  <label>AI Endpoint</label>
-                  <input
-                    className="modal-input"
-                    value={settingsDraft.ai_endpoint}
-                    onChange={e => setSettingsDraft(prev => ({ ...prev, ai_endpoint: e.target.value }))}
-                  />
-                </div>
-                <div className="modal-field">
-                  <label>AI Timeout (sec)</label>
-                  <input
-                    className="modal-input"
-                    type="number"
-                    min="1"
-                    max="300"
-                    value={settingsDraft.ai_timeout}
-                    onChange={e => setSettingsDraft(prev => ({ ...prev, ai_timeout: Number(e.target.value) || 30 }))}
-                  />
-                </div>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div className="modal-field">
-                  <label>Default Quality</label>
-                  <input
-                    className="modal-input"
-                    type="number"
-                    min="1"
-                    max="100"
-                    value={settingsDraft.default_quality}
-                    onChange={e => setSettingsDraft(prev => ({ ...prev, default_quality: Number(e.target.value) || 95 }))}
-                  />
-                </div>
-                <div className="modal-field">
-                  <label>Current Runtime</label>
-                  <div style={{
-                    minHeight: '38px',
-                    borderRadius: '8px',
-                    border: '1px solid var(--border-2)',
-                    background: 'var(--bg-active)',
-                    color: 'var(--text-secondary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '0 12px',
-                    fontSize: '0.85rem',
-                  }}>
-                    {healthInfo?.status === 'ok'
-                      ? `Backend جاهز${healthInfo.version ? ` • v${healthInfo.version}` : ''}`
-                      : 'Backend status unavailable'}
-                  </div>
-                </div>
-              </div>
-              <label className="snap-toggle" style={{ justifyContent: 'space-between' }}>
-                <input
-                  type="checkbox"
-                  checked={settingsDraft.ai_enabled}
-                  onChange={e => setSettingsDraft(prev => ({ ...prev, ai_enabled: e.target.checked }))}
-                />
-                <span>تفعيل الذكاء الاصطناعي</span>
-              </label>
-              <label className="snap-toggle" style={{ justifyContent: 'space-between' }}>
-                <input
-                  type="checkbox"
-                  checked={settingsDraft.auto_open_folder}
-                  onChange={e => setSettingsDraft(prev => ({ ...prev, auto_open_folder: e.target.checked }))}
-                />
-                <span>فتح مجلد التصدير تلقائياً</span>
-              </label>
-              {settingsError && (
-                <div className="ai-error"><TriangleAlert size={13} /> {settingsError}</div>
-              )}
-            </div>
-            <div className="modal-footer">
-              <button className="btn btn-ghost btn-sm" onClick={() => setShowSettingsModal(false)}>إلغاء</button>
-              <button className="btn btn-primary btn-sm" onClick={persistSettings} disabled={isSavingSettings}>
-                {isSavingSettings ? 'جاري الحفظ...' : 'حفظ الإعدادات'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {false && showSaveProjectModal && (
-        <div className="modal-overlay" onClick={() => setShowSaveProjectModal(false)}>
-          <div className="modal-box" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <span>حفظ المشروع</span>
-              <button className="modal-close" onClick={() => setShowSaveProjectModal(false)}><X size={16} /></button>
-            </div>
-            <div className="modal-body">
-              <div className="modal-field">
-                <label>اسم المشروع</label>
-                <input
-                  className="modal-input"
-                  value={saveProjectDraft}
-                  onChange={e => setSaveProjectDraft(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter') saveProject(saveProjectDraft); }}
-                  autoFocus
-                />
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button className="btn btn-ghost btn-sm" onClick={() => setShowSaveProjectModal(false)}>إلغاء</button>
-              <button className="btn btn-primary btn-sm" onClick={() => saveProject(saveProjectDraft)}>حفظ</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {false && showProjectsModal && (
-        <div className="modal-overlay" onClick={() => setShowProjectsModal(false)}>
-          <div className="modal-box" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <span>فتح مشروع</span>
-              <button className="modal-close" onClick={() => setShowProjectsModal(false)}><X size={16} /></button>
-            </div>
-            <div className="modal-body">
-              <div className="modal-field">
-                <label>المشاريع المتاحة</label>
-                <select
-                  className="styled-select"
-                  value={selectedProjectId}
-                  onChange={e => setSelectedProjectId(e.target.value)}
-                >
-                  {availableProjects.map(project => (
-                    <option key={project.id} value={project.id}>
-                      {project.name} ({project.kind})
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button className="btn btn-ghost btn-sm" onClick={() => setShowProjectsModal(false)}>إلغاء</button>
-              <button className="btn btn-primary btn-sm" onClick={confirmLoadProject}>فتح</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {false && noticeModal.open && (
-        <div className="modal-overlay" onClick={() => setNoticeModal({ open: false, title: '', message: '' })}>
-          <div className="modal-box" onClick={e => e.stopPropagation()} style={{ maxWidth: '520px' }}>
-            <div className="modal-header">
-              <span>{noticeModal.title}</span>
-              <button className="modal-close" onClick={() => setNoticeModal({ open: false, title: '', message: '' })}><X size={16} /></button>
-            </div>
-            <div className="modal-body">
-              <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
-                {noticeModal.message}
-              </div>
-            </div>
-            <div className="modal-footer">
-              <button className="btn btn-primary btn-sm" onClick={() => setNoticeModal({ open: false, title: '', message: '' })}>موافق</button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ====== CURVED TEXT MODAL ====== */}
       {showCurvedTextModal && (
