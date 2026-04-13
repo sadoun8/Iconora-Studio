@@ -18,16 +18,14 @@ import {
   exportProject,
   exportCanvas as exportCanvasApi,
   exportIconPack,
-  fetchBootstrap,
   generateLogo,
-  getHealth,
   getProject,
-  getSettings,
   importProject as importProjectApi,
   listProjects,
   saveSettings,
   updateProject,
 } from './lib/api.js';
+import { getSectionConfig, useRuntimeBootstrap } from './runtime/useRuntimeBootstrap.js';
 import {
   NoticeModal,
   OpenProjectModal,
@@ -114,10 +112,18 @@ export default function App() {
   const [blurAmount, setBlurAmount] = useState(0);
 
   // ── Export transparent PNG modal ──
-  const [bootstrap, setBootstrap] = useState(FALLBACK_BOOTSTRAP);
-  const [bootstrapError, setBootstrapError] = useState('');
-  const [healthInfo, setHealthInfo] = useState(null);
-  const [healthError, setHealthError] = useState('');
+  const {
+    bootstrap,
+    setBootstrap,
+    bootstrapError,
+    healthInfo,
+    setHealthInfo,
+    healthError,
+    settingsDraft,
+    setSettingsDraft,
+    settingsError,
+    setSettingsError,
+  } = useRuntimeBootstrap(DEFAULT_SETTINGS_DRAFT);
   const [currentProjectId, setCurrentProjectId] = useState('');
   const [currentProjectName, setCurrentProjectName] = useState('');
   const [showSaveProjectModal, setShowSaveProjectModal] = useState(false);
@@ -127,33 +133,11 @@ export default function App() {
   const [selectedProjectId, setSelectedProjectId] = useState('');
   const [noticeModal, setNoticeModal] = useState({ open: false, title: '', message: '' });
   const [showSettingsModal, setShowSettingsModal] = useState(false);
-  const [settingsDraft, setSettingsDraft] = useState(DEFAULT_SETTINGS_DRAFT);
-  const [settingsError, setSettingsError] = useState('');
   const [isSavingSettings, setIsSavingSettings] = useState(false);
   const isApplyingProjectRef = useRef(false);
 
   // Derived section config
-  const sectionConfig = (() => {
-    const runtimeTemplates = bootstrap.templates || FALLBACK_BOOTSTRAP.templates;
-    const runtimeSizes = bootstrap.sizes || FALLBACK_BOOTSTRAP.sizes;
-    const runtimeIcons = bootstrap.icons || FALLBACK_BOOTSTRAP.icons;
-    const runtimeFonts = bootstrap.fonts || FALLBACK_BOOTSTRAP.fonts;
-    if (section === 'icon') return {
-      templates: runtimeTemplates.icon || FALLBACK_BOOTSTRAP.templates.icon, sizes: runtimeSizes.icon || FALLBACK_BOOTSTRAP.sizes.icon, icons: runtimeIcons.icon || FALLBACK_BOOTSTRAP.icons.icon,
-      defaultSize: (runtimeSizes.icon || FALLBACK_BOOTSTRAP.sizes.icon)?.[0] || { w: 512, h: 512 }, fonts: runtimeFonts.general || FALLBACK_BOOTSTRAP.fonts.general,
-      aiHint: 'مثال: أيقونة تطبيق بتصميم مسطح، رمز البرق الأزرق على خلفية داكنة',
-    };
-    if (section === 'signature') return {
-      templates: runtimeTemplates.signature || FALLBACK_BOOTSTRAP.templates.signature, sizes: runtimeSizes.signature || FALLBACK_BOOTSTRAP.sizes.signature, icons: runtimeIcons.signature || FALLBACK_BOOTSTRAP.icons.signature,
-      defaultSize: (runtimeSizes.signature || FALLBACK_BOOTSTRAP.sizes.signature)?.[0] || { w: 800, h: 300 }, fonts: runtimeFonts.signature || FALLBACK_BOOTSTRAP.fonts.signature,
-      aiHint: 'مثال: توقيع إلكتروني أنيق باسم "محمد" بخط عربي ذهبي على خلفية داكنة',
-    };
-    return {
-      templates: runtimeTemplates.logo || FALLBACK_BOOTSTRAP.templates.logo, sizes: runtimeSizes.logo || FALLBACK_BOOTSTRAP.sizes.logo, icons: runtimeIcons.logo || FALLBACK_BOOTSTRAP.icons.logo,
-      defaultSize: (runtimeSizes.logo || FALLBACK_BOOTSTRAP.sizes.logo)?.[0] || { w: 800, h: 800 }, fonts: runtimeFonts.general || FALLBACK_BOOTSTRAP.fonts.general,
-      aiHint: 'مثال: أسد هادئ بأسلوب فيكتور مسطح لشركة تقنية، لا نص',
-    };
-  })();
+  const sectionConfig = getSectionConfig(section, bootstrap);
   const selectedCanvasLabel = sectionConfig.sizes.find(size => size.w === canvasSize.w && size.h === canvasSize.h)?.label
     || sectionConfig.sizes[0]?.label
     || '';
@@ -211,68 +195,6 @@ export default function App() {
 
   // ── Active sidebar tab ──
   const [sidebarTab, setSidebarTab] = useState('tools'); // tools | templates | icons | ai | layers
-
-  useEffect(() => {
-    let mounted = true;
-
-    const loadBootstrapData = async () => {
-      try {
-        const payload = await fetchBootstrap();
-        if (!mounted) return;
-        setBootstrap({
-          ...FALLBACK_BOOTSTRAP,
-          ...payload,
-          fonts: { ...FALLBACK_BOOTSTRAP.fonts, ...(payload.fonts || {}) },
-          templates: { ...FALLBACK_BOOTSTRAP.templates, ...(payload.templates || {}) },
-          icons: { ...FALLBACK_BOOTSTRAP.icons, ...(payload.icons || {}) },
-          sizes: { ...FALLBACK_BOOTSTRAP.sizes, ...(payload.sizes || {}) },
-          ornaments: payload.ornaments || FALLBACK_BOOTSTRAP.ornaments,
-          settings: { ...FALLBACK_BOOTSTRAP.settings, ...(payload.settings || {}) },
-        });
-        setBootstrapError('');
-      } catch (error) {
-        if (mounted) {
-          setBootstrapError(error.message || 'Failed to load runtime assets');
-        }
-      }
-    };
-
-    const loadHealthData = async () => {
-      try {
-        const payload = await getHealth();
-        if (!mounted) return;
-        setHealthInfo(payload);
-        setHealthError('');
-      } catch (error) {
-        if (mounted) {
-          setHealthError(error.message || 'Failed to load backend health');
-        }
-      }
-    };
-
-    const loadSettingsData = async () => {
-      try {
-        const payload = await getSettings();
-        if (!mounted) return;
-        setBootstrap(prev => ({
-          ...prev,
-          settings: { ...DEFAULT_SETTINGS_DRAFT, ...(prev.settings || {}), ...payload },
-        }));
-        setSettingsDraft(prev => ({ ...prev, ...payload }));
-      } catch (error) {
-        if (mounted) {
-          setSettingsError(error.message || 'Failed to load runtime settings');
-        }
-      }
-    };
-
-    loadBootstrapData();
-    loadHealthData();
-    loadSettingsData();
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   // --------------------------------------------------------
   // CANVAS INIT
@@ -1042,7 +964,7 @@ export default function App() {
     } finally {
       setIsSavingSettings(false);
     }
-  }, [openAiWorkspace, settingsDraft, showNotice]);
+  }, [openAiWorkspace, setBootstrap, setHealthInfo, setSettingsError, settingsDraft, showNotice]);
 
   const loadProjectFromApi = async () => {
     if (!fabricCanvas) return;
