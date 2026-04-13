@@ -1,10 +1,9 @@
+# Web server dependencies (Railway / production)
 fastapi
-uvicorn
+uvicorn[standard]
 requests
-rembg[cpu]
 pillow
 deep-translator
-pywebview
-svgwrite
-numpy
-scikit-image
+
+# Optional: AI background removal (heavy — comment out if Railway build fails)
+rembg[cpu]
