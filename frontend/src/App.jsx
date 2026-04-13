@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as fabric from 'fabric';
 import {
   Sparkles, Type, Download, Layers, MousePointer2, Wand2,
-  Loader2, Undo2, Redo2, Trash2, Square, Circle,
+  Undo2, Redo2, Trash2, Square, Circle,
   AlignCenter, Bold, Italic, Move, Image as ImageIcon,
-  Save, FolderOpen, ChevronDown, X, TriangleAlert, Star,
+  Save, FolderOpen, ChevronDown, X, Star,
   Settings2, Palette, Pentagon, PenLine, Hexagon, LayoutTemplate,
   Copy, RefreshCw, Sliders,
   Pen, Eraser, Wind, ArrowUpDown, ZoomIn, ZoomOut, Maximize2,
@@ -32,6 +32,7 @@ import {
   SaveProjectModal,
   SettingsModal,
 } from './components/AppModals.jsx';
+import AiSidebarPanel from './components/editor/AiSidebarPanel.jsx';
 import EditorTopbar from './components/editor/EditorTopbar.jsx';
 import LayersPanel from './components/editor/LayersPanel.jsx';
 import SectionSwitcher from './components/editor/SectionSwitcher.jsx';
@@ -1427,40 +1428,18 @@ export default function App() {
 
             {/* AI TAB */}
             {sidebarTab === 'ai' && (
-              <div className="sidebar-section" style={{ flex: 1 }}>
-                <div className="section-label"><Wand2 size={12} /> مولد الذكاء الاصطناعي</div>
-                <div className="ai-panel">
-                  <div className="ai-panel-header"><Sparkles size={15} /> توليد بالذكاء الاصطناعي</div>
-                  <textarea className="ai-textarea" placeholder={sectionConfig.aiHint}
-                    value={aiPrompt} onChange={e => setAiPrompt(e.target.value)}
-                    onKeyDown={e => { if (e.key === 'Enter' && e.ctrlKey && isAiEnabled) handleGenerateLogoViaApi(); }}
-                    disabled={!isAiEnabled}
-                  />
-                  {!isAiEnabled && (
-                    <div className="ai-error"><TriangleAlert size={13} /> الذكاء الاصطناعي معطّل حالياً من الإعدادات.</div>
-                  )}
-                  {aiError && (
-                    <div className="ai-error"><TriangleAlert size={13} /> {normalizeAiErrorMessage(aiError)}</div>
-                  )}
-                  <button className={`btn btn-primary btn-full ${isGenerating ? 'generating-indicator' : ''}`}
-                    onClick={handleGenerateLogoViaApi} disabled={!isAiEnabled || isGenerating || !aiPrompt.trim()}>
-                    {isGenerating ? <><Loader2 size={15} className="animate-spin" /> جارٍ التوليد...</> : <><Wand2 size={15} /> توليد ودمج</>}
-                  </button>
-                  <p className="ai-note">
-                    `Ctrl+Enter` للتوليد السريع
-                    <br />
-                    <span style={{ color: 'var(--text-faint)' }}>
-                      {bootstrapError
-                        ? 'تم تفعيل بيانات احتياطية للأصول.'
-                        : healthError
-                          ? 'تعذر الاتصال بالخادم المحلي على 127.0.0.1:8000.'
-                          : healthInfo?.status === 'ok'
-                            ? `الخادم المحلي متصل${healthInfo.version ? ` • v${healthInfo.version}` : ''}`
-                            : 'الخادم المحلي متصل.'}
-                    </span>
-                  </p>
-                </div>
-              </div>
+              <AiSidebarPanel
+                aiPrompt={aiPrompt}
+                setAiPrompt={setAiPrompt}
+                aiHint={sectionConfig.aiHint}
+                isAiEnabled={isAiEnabled}
+                aiError={normalizeAiErrorMessage(aiError)}
+                isGenerating={isGenerating}
+                onGenerate={handleGenerateLogoViaApi}
+                bootstrapError={bootstrapError}
+                healthError={healthError}
+                healthInfo={healthInfo}
+              />
             )}
 
             {/* LAYERS TAB */}
