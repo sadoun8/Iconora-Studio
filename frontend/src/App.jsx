@@ -6,7 +6,7 @@ import {
   AlignCenter, Bold, Italic, Move, Image as ImageIcon,
   Save, FolderOpen, ChevronDown, X, TriangleAlert, Star,
   Settings2, Palette, Pentagon, PenLine, Hexagon, LayoutTemplate,
-  Eye, EyeOff, Lock, Unlock, Copy, RefreshCw, Sliders,
+  Copy, RefreshCw, Sliders,
   Pen, Eraser, Wind, ArrowUpDown, ZoomIn, ZoomOut, Maximize2,
   AlignLeft, AlignRight, AlignJustify, RotateCcw, Crop,
   FlipHorizontal, FlipVertical, ChevronUp, ChevronRight,
@@ -33,7 +33,9 @@ import {
   SettingsModal,
 } from './components/AppModals.jsx';
 import EditorTopbar from './components/editor/EditorTopbar.jsx';
+import LayersPanel from './components/editor/LayersPanel.jsx';
 import SectionSwitcher from './components/editor/SectionSwitcher.jsx';
+import SidebarTabBar from './components/editor/SidebarTabBar.jsx';
 
 
 
@@ -1274,21 +1276,7 @@ export default function App() {
         {/* ====== LEFT SIDEBAR ====== */}
         <aside className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
           <SectionSwitcher section={section} setSection={setSection} />
-          {/* Sidebar tab bar */}
-          <div className="sidebar-tabbar">
-            {[
-              { id: 'tools', icon: <Settings2 size={15} />, label: 'أدوات' },
-              { id: 'templates', icon: <Star size={15} />, label: 'قوالب' },
-              { id: 'icons', icon: <Sparkles size={15} />, label: 'مكتبة' },
-              { id: 'ai', icon: <Wand2 size={15} />, label: 'ذكاء' },
-              { id: 'layers', icon: <Layers size={15} />, label: 'طبقات' },
-            ].map(t => (
-              <button key={t.id} className={`sidebar-tab-btn ${sidebarTab === t.id ? 'active' : ''}`}
-                onClick={() => setSidebarTab(t.id)} title={t.label}>
-                {t.icon}
-              </button>
-            ))}
-          </div>
+          <SidebarTabBar sidebarTab={sidebarTab} setSidebarTab={setSidebarTab} />
 
           <div className="sidebar-content">
             {/* TOOLS TAB */}
@@ -1477,33 +1465,15 @@ export default function App() {
 
             {/* LAYERS TAB */}
             {sidebarTab === 'layers' && (
-              <div className="sidebar-section">
-                <div className="section-label" style={{ justifyContent: 'space-between' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Layers size={12} /> الطبقات ({layers.length})</span>
-                </div>
-                {layers.length === 0 ? (
-                  <div className="empty-layers">لا توجد عناصر بعد</div>
-                ) : (
-                  <div className="layers-list">
-                    {layers.map((l, i) => {
-                      const id = l.obj.__uid;
-                      const ls = layerStates[id] || { visible: true, locked: false };
-                      return (
-                        <div key={i} className={`layer-item ${activeObject === l.obj ? 'active' : ''}`} onClick={() => !ls.locked && selectLayer(l.obj)}>
-                          <button className="layer-action-btn" onClick={e => { e.stopPropagation(); toggleLayerVisibility(l.obj); }} title={ls.visible ? 'إخفاء' : 'إظهار'}>
-                            {ls.visible ? <Eye size={12} /> : <EyeOff size={12} />}
-                          </button>
-                          <button className="layer-action-btn" onClick={e => { e.stopPropagation(); toggleLayerLock(l.obj); }} title={ls.locked ? 'فتح' : 'قفل'}>
-                            {ls.locked ? <Lock size={12} /> : <Unlock size={12} />}
-                          </button>
-                          <span className="layer-name">{l.label}</span>
-                          <button className="layer-delete" onClick={e => { e.stopPropagation(); deleteLayer(l.obj); }}><X size={12} /></button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+              <LayersPanel
+                layers={layers}
+                layerStates={layerStates}
+                activeObject={activeObject}
+                selectLayer={selectLayer}
+                toggleLayerVisibility={toggleLayerVisibility}
+                toggleLayerLock={toggleLayerLock}
+                deleteLayer={deleteLayer}
+              />
             )}
           </div>
         </aside>
