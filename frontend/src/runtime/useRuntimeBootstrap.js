@@ -3,6 +3,20 @@ import { useEffect, useState } from 'react';
 import { fetchBootstrap, getHealth, getSettings } from '../lib/api.js';
 import { FALLBACK_BOOTSTRAP } from './bootstrapFallback.js';
 
+function getLocalizedAiHint(section, runtimeHints, runtimeSettings) {
+  if (runtimeSettings?.language === 'en') {
+    if (section === 'icon') {
+      return 'Example: flat mobile app icon, blue lightning symbol on a dark background';
+    }
+    if (section === 'signature') {
+      return 'Example: elegant Arabic signature for "Mohammed" in gold calligraphy';
+    }
+    return 'Example: calm lion in a flat vector style for a tech brand, no text';
+  }
+
+  return runtimeHints[section] || FALLBACK_BOOTSTRAP.ai_hints[section];
+}
+
 export function mergeBootstrapPayload(payload) {
   return {
     ...FALLBACK_BOOTSTRAP,
@@ -13,6 +27,7 @@ export function mergeBootstrapPayload(payload) {
     sizes: { ...FALLBACK_BOOTSTRAP.sizes, ...((payload && payload.sizes) || {}) },
     ornaments: (payload && payload.ornaments) || FALLBACK_BOOTSTRAP.ornaments,
     settings: { ...FALLBACK_BOOTSTRAP.settings, ...((payload && payload.settings) || {}) },
+    ai_hints: { ...FALLBACK_BOOTSTRAP.ai_hints, ...((payload && payload.ai_hints) || {}) },
   };
 }
 
@@ -21,6 +36,8 @@ export function getSectionConfig(section, bootstrap) {
   const runtimeSizes = bootstrap.sizes || FALLBACK_BOOTSTRAP.sizes;
   const runtimeIcons = bootstrap.icons || FALLBACK_BOOTSTRAP.icons;
   const runtimeFonts = bootstrap.fonts || FALLBACK_BOOTSTRAP.fonts;
+  const runtimeHints = bootstrap.ai_hints || FALLBACK_BOOTSTRAP.ai_hints;
+  const runtimeSettings = bootstrap.settings || FALLBACK_BOOTSTRAP.settings;
 
   if (section === 'icon') {
     return {
@@ -29,7 +46,7 @@ export function getSectionConfig(section, bootstrap) {
       icons: runtimeIcons.icon || FALLBACK_BOOTSTRAP.icons.icon,
       defaultSize: (runtimeSizes.icon || FALLBACK_BOOTSTRAP.sizes.icon)?.[0] || { w: 512, h: 512 },
       fonts: runtimeFonts.general || FALLBACK_BOOTSTRAP.fonts.general,
-      aiHint: 'مثال: أيقونة تطبيق بتصميم مسطح، رمز البرق الأزرق على خلفية داكنة',
+      aiHint: getLocalizedAiHint('icon', runtimeHints, runtimeSettings),
     };
   }
 
@@ -40,7 +57,7 @@ export function getSectionConfig(section, bootstrap) {
       icons: runtimeIcons.signature || FALLBACK_BOOTSTRAP.icons.signature,
       defaultSize: (runtimeSizes.signature || FALLBACK_BOOTSTRAP.sizes.signature)?.[0] || { w: 800, h: 300 },
       fonts: runtimeFonts.signature || FALLBACK_BOOTSTRAP.fonts.signature,
-      aiHint: 'مثال: توقيع إلكتروني أنيق باسم "محمد" بخط عربي ذهبي على خلفية داكنة',
+      aiHint: getLocalizedAiHint('signature', runtimeHints, runtimeSettings),
     };
   }
 
@@ -50,7 +67,7 @@ export function getSectionConfig(section, bootstrap) {
     icons: runtimeIcons.logo || FALLBACK_BOOTSTRAP.icons.logo,
     defaultSize: (runtimeSizes.logo || FALLBACK_BOOTSTRAP.sizes.logo)?.[0] || { w: 800, h: 800 },
     fonts: runtimeFonts.general || FALLBACK_BOOTSTRAP.fonts.general,
-    aiHint: 'مثال: أسد هادئ بأسلوب فيكتور مسطح لشركة تقنية، لا نص',
+    aiHint: getLocalizedAiHint('logo', runtimeHints, runtimeSettings),
   };
 }
 

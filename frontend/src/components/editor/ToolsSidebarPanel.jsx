@@ -32,9 +32,7 @@ export default function ToolsSidebarPanel({
   addPolygon,
   addStar,
   loadImage,
-  openCurvedTextModal,
-  isCurvedText,
-  activeObject,
+  addCurvedText,
   applyGoldGradient,
   applySilverGradient,
   applyPurpleGradient,
@@ -45,7 +43,7 @@ export default function ToolsSidebarPanel({
   return (
     <>
       <div className="sidebar-section">
-        <div className="section-label">🖱 وضع التحرير</div>
+        <div className="section-label">وضع التحرير</div>
         <div className="tool-grid">
           <button className={`tool-btn ${activeTool === 'select' ? 'active' : ''}`} onClick={activateSelectTool}>
             <MousePointer2 size={17} /> تحديد
@@ -60,7 +58,7 @@ export default function ToolsSidebarPanel({
 
       {section === 'signature' && activeTool === 'draw' && (
         <div className="sidebar-section">
-          <div className="section-label">🖊 إعدادات الريشة</div>
+          <div className="section-label">إعدادات الريشة</div>
           <div className="control-row">
             <span className="control-label">اللون</span>
             <div className="color-input-wrapper" style={{ width: 28, height: 28 }}>
@@ -68,7 +66,7 @@ export default function ToolsSidebarPanel({
             </div>
           </div>
           <div className="control-row">
-            <span className="control-label">السُمك</span>
+            <span className="control-label">السماكة</span>
             <div className="range-row" style={{ flex: 1 }}>
               <input
                 type="range"
@@ -109,7 +107,7 @@ export default function ToolsSidebarPanel({
       )}
 
       <div className="sidebar-section">
-        <div className="section-label">✦ إضافة عناصر</div>
+        <div className="section-label">إضافة عناصر</div>
         <div className="tool-grid">
           <button className="tool-btn" onClick={addText}><Type size={17} /> نص</button>
           <button className="tool-btn" onClick={addRect}><Square size={17} /> مستطيل</button>
@@ -121,19 +119,14 @@ export default function ToolsSidebarPanel({
       </div>
 
       <div className="sidebar-section">
-        <div className="section-label">🌀 نص مقوس</div>
-        <button className="btn btn-ghost btn-sm" style={{ width: '100%' }} onClick={() => openCurvedTextModal()}>
+        <div className="section-label">نص مقوس</div>
+        <button className="btn btn-ghost btn-sm" style={{ width: '100%' }} onClick={addCurvedText}>
           <AlignCenter size={14} /> إضافة نص على قوس
         </button>
-        {isCurvedText && (
-          <button className="btn btn-primary btn-sm" style={{ width: '100%', marginTop: '6px' }} onClick={() => openCurvedTextModal(activeObject)}>
-            تعديل النص المقوس المحدد
-          </button>
-        )}
       </div>
 
       <div className="sidebar-section">
-        <div className="section-label">🎨 تدرجات احترافية</div>
+        <div className="section-label">تدرجات احترافية</div>
         <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
           <button className="gradient-btn" style={{ background: 'linear-gradient(135deg,#bf953f,#fcf6ba,#b38728)' }} onClick={applyGoldGradient} title="ذهبي">ذهبي</button>
           <button className="gradient-btn" style={{ background: 'linear-gradient(135deg,#bdc3c7,#f8f8f8,#7f8c8d)' }} onClick={applySilverGradient} title="فضي">فضي</button>
@@ -142,7 +135,7 @@ export default function ToolsSidebarPanel({
       </div>
 
       <div className="sidebar-section">
-        <div className="section-label">↔ انعكاس</div>
+        <div className="section-label">انعكاس</div>
         <div style={{ display: 'flex', gap: '6px' }}>
           <button className="btn btn-ghost btn-sm" style={{ flex: 1 }} onClick={toggleFlipX}><FlipHorizontal size={14} /> أفقي</button>
           <button className="btn btn-ghost btn-sm" style={{ flex: 1 }} onClick={toggleFlipY}><FlipVertical size={14} /> رأسي</button>
@@ -150,7 +143,7 @@ export default function ToolsSidebarPanel({
       </div>
 
       <div className="sidebar-section">
-        <div className="section-label">✨ فلاتر SVG</div>
+        <div className="section-label">فلاتر SVG</div>
         <button className="btn btn-ghost btn-sm" style={{ width: '100%' }} onClick={onOpenFilters}>
           <Sliders size={14} /> إعدادات الفلاتر
         </button>

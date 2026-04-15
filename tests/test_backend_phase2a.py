@@ -181,17 +181,19 @@ class Phase2ABackendVerificationTests(unittest.TestCase):
     def test_bootstrap_assets_shape(self) -> None:
         payload = routes_assets.get_bootstrap().model_dump()
 
-        self.assertEqual(set(payload), {"fonts", "templates", "icons", "ornaments", "sizes", "settings"})
+        self.assertEqual(set(payload), {"fonts", "templates", "icons", "ornaments", "sizes", "settings", "ai_hints"})
         self.assertEqual(set(payload["fonts"]), {"general", "signature"})
         self.assertEqual(set(payload["templates"]), {"logo", "icon", "signature"})
         self.assertEqual(set(payload["icons"]), {"logo", "icon", "signature"})
         self.assertIsInstance(payload["ornaments"], list)
         self.assertEqual(set(payload["sizes"]), {"logo", "icon", "signature"})
+        self.assertEqual(set(payload["ai_hints"]), {"logo", "icon", "signature"})
         self.assertEqual(payload["settings"]["app_version"], "test-version")
         self.assertTrue(payload["settings"]["ai_enabled"])
         self.assertGreaterEqual(len(payload["templates"]["logo"]), 8)
         self.assertGreaterEqual(len(payload["icons"]["logo"]), 12)
-        self.assertGreaterEqual(len(payload["ornaments"]), 8)
+        self.assertGreaterEqual(len(payload["ornaments"]), 7)
+        self.assertTrue(all({"label", "emoji", "svg"}.issubset(item.keys()) for item in payload["ornaments"]))
 
     def test_project_create_load_update_delete_flow(self) -> None:
         create_payload = {
@@ -287,6 +289,42 @@ class Phase2ABackendVerificationTests(unittest.TestCase):
         )
         self.assertTrue(export_payload["success"])
         self.assertEqual(export_payload["document"]["id"], created.id)
+
+    def test_project_update_rename_moves_project_identity_without_duplicates(self) -> None:
+        created = routes_projects.create_project(
+            SaveProjectRequest(
+                name="Original Project",
+                kind="logo",
+                canvas={"objects": [{"type": "text", "text": "A"}]},
+                assets={},
+                editor={"section": "logo"},
+                export_defaults={},
+            )
+        )
+
+        updated = routes_projects.update_project(
+            created.id,
+            SaveProjectRequest(
+                name="Renamed Project",
+                kind="logo",
+                canvas={"objects": [{"type": "text", "text": "B"}]},
+                assets={},
+                editor={"section": "logo"},
+                export_defaults={},
+            ),
+        )
+
+        self.assertEqual(updated.name, "Renamed Project")
+        self.assertEqual(updated.canvas, {"objects": [{"type": "text", "text": "B"}]})
+        self.assertNotEqual(updated.id, created.id)
+
+        listing = routes_projects.list_projects().model_dump()
+        self.assertEqual(listing["count"], 1)
+        self.assertEqual(listing["projects"][0]["id"], updated.id)
+
+        with self.assertRaises(HTTPException) as exc_info:
+            routes_projects.get_project(created.id)
+        self.assertEqual(exc_info.exception.status_code, 404)
 
 
 if __name__ == "__main__":

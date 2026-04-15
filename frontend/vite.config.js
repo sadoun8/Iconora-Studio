@@ -4,6 +4,19 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return undefined;
+          if (id.includes('fabric')) return 'fabric-vendor';
+          if (id.includes('react') || id.includes('scheduler')) return 'react-vendor';
+          if (id.includes('lucide-react')) return 'ui-vendor';
+          return 'vendor';
+        },
+      },
+    },
+  },
   server: {
     proxy: {
       '/api': {

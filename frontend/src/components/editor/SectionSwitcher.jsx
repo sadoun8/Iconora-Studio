@@ -1,28 +1,25 @@
 import { Hexagon, LayoutTemplate, PenLine } from 'lucide-react';
 
+import { getUiCopy } from '../../i18n.js';
+
 const SECTIONS = [
-  { id: 'logo', icon: <LayoutTemplate size={14} />, label: 'لوجو' },
-  { id: 'icon', icon: <Hexagon size={14} />, label: 'أيقونات' },
-  { id: 'signature', icon: <PenLine size={14} />, label: 'توقيع' },
+  { id: 'logo', icon: <LayoutTemplate size={14} /> },
+  { id: 'icon', icon: <Hexagon size={14} /> },
+  { id: 'signature', icon: <PenLine size={14} /> },
 ];
 
-/**
- * SectionSwitcher
- *
- * Props:
- *  section      – القسم النشط ('logo' | 'icon' | 'signature')
- *  setSection   – دالة لتغيير القسم
- */
-export default function SectionSwitcher({ section, setSection }) {
+export default function SectionSwitcher({ section, setSection, language }) {
+  const copy = getUiCopy(language);
+
   return (
     <div className="sidebar-section-switcher sidebar-section-switcher-side">
-      {SECTIONS.map(tab => (
+      {SECTIONS.map((tab) => (
         <button
           key={tab.id}
           onClick={() => setSection(tab.id)}
           className={`section-tab panel-section-tab ${section === tab.id ? 'active' : ''}`}
         >
-          {tab.icon} {tab.label}
+          {tab.icon} {copy.sections[tab.id]}
         </button>
       ))}
     </div>

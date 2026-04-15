@@ -9,7 +9,7 @@ import {
   Copy,
   Eraser, Wind, ArrowUpDown, ZoomIn, ZoomOut, Maximize2,
   AlignLeft, AlignRight, AlignJustify, RotateCcw, Crop,
-  ChevronUp, ChevronRight,
+  ChevronUp, ChevronRight, MousePointer2,
 } from 'lucide-react';
 import { FALLBACK_BOOTSTRAP } from './runtime/bootstrapFallback.js';
 import './index.css';
@@ -25,6 +25,8 @@ import {
   saveSettings,
   updateProject,
 } from './lib/api.js';
+import { useCanvasHistory } from './hooks/useCanvasHistory.js';
+import { useCanvasLayers } from './hooks/useCanvasLayers.js';
 import { getSectionConfig, useRuntimeBootstrap } from './runtime/useRuntimeBootstrap.js';
 import {
   NoticeModal,
@@ -171,6 +173,7 @@ export default function App() {
   const [aiPrompt, setAiPrompt] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [aiError, setAiError] = useState('');
+  const [aiDebugInfo, setAiDebugInfo] = useState(null);
 
   // Object Properties
   const [fillColor, setFillColor] = useState('#6366f1');
@@ -1203,39 +1206,90 @@ export default function App() {
   // AI GENERATION
   // --------------------------------------------------------
   /* Phase 2A cleanup: retired legacy AI path.
-    if (!aiPrompt.trim() || !fabricCanvas) return;
+    Legacy inline generation handler intentionally removed.
     setIsGenerating(true); setAiError('');
     try {
       const data = await generateLogo({ prompt: aiPrompt, remove_background: true });
       placeGeneratedImage(data.image_data);
-    } catch {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error || 'Request failed');
+      setAiDebugInfo({
+        ...localDebug,
+        request_status: 'error',
+        error: message,
+      });
       setAiError('تعذر توليد الشعار! ربما حدث خطأ في الخادم.');
+      setAiError(message);
     } finally { setIsGenerating(false); }
   };
 
   */
-  const placeGeneratedImage = useCallback((imageDataUrl) => {
+  // Tracks the last AI-generated image so edit/merge mode can replace it
+  const lastAiImageRef = React.useRef(null);
+
+  const placeGeneratedImage = useCallback((imageDataUrl, replaceExisting = false) => {
     if (!fabricCanvas || !imageDataUrl) return;
     const imgEl = new window.Image();
     imgEl.src = imageDataUrl;
     imgEl.onload = () => {
+      // In edit/merge mode: remove the previous AI image before placing the new one
+      if (replaceExisting && lastAiImageRef.current) {
+        try { fabricCanvas.remove(lastAiImageRef.current); } catch (_) {}
+        lastAiImageRef.current = null;
+      }
       const fImg = new fabric.FabricImage(imgEl);
-      if (fImg.width > fabricCanvas.width * 0.5) fImg.scaleToWidth(fabricCanvas.width * 0.5);
+      fImg.__isAiGenerated = true;
+      const maxW = section === 'signature' ? 0.82 : section === 'icon' ? 0.42 : 0.5;
+      const maxH = section === 'signature' ? 0.42 : 0.62;
+      if (fImg.width > fabricCanvas.width * maxW) fImg.scaleToWidth(fabricCanvas.width * maxW);
+      if (fImg.getScaledHeight() > fabricCanvas.height * maxH) fImg.scaleToHeight(fabricCanvas.height * maxH);
       fImg.set({ left: (fabricCanvas.width - fImg.getScaledWidth()) / 2, top: (fabricCanvas.height - fImg.getScaledHeight()) / 2 });
       fabricCanvas.add(fImg);
       fabricCanvas.setActiveObject(fImg);
       fabricCanvas.renderAll();
+      lastAiImageRef.current = fImg;
       setAiPrompt('');
     };
-  }, [fabricCanvas]);
+  }, [fabricCanvas, section]);
 
-  const handleGenerateLogoViaApi = async () => {
+  const handleGenerateLogoViaApi = async (isNew = false) => {
     if (!isAiEnabled || !aiPrompt.trim() || !fabricCanvas) return;
+    const promptValue = aiPrompt.trim();
+    const localDebug = {
+      request_status: 'requesting',
+      mode: isNew ? 'fresh' : 'refine',
+      section,
+      original_prompt: promptValue,
+      remove_background: true,
+    };
+    setAiDebugInfo(localDebug);
     setIsGenerating(true); setAiError('');
     try {
-      const data = await generateLogo({ prompt: aiPrompt, remove_background: true });
-      placeGeneratedImage(data.image_data);
-    } catch {
+      const data = await generateLogo({ prompt: promptValue, remove_background: true, section });
+      setAiDebugInfo(
+        data.debug
+          ? {
+              request_status: 'success',
+              mode: isNew ? 'fresh' : 'refine',
+              ...data.debug,
+              seed: data.debug.seed ?? data.seed ?? null,
+            }
+          : {
+              ...localDebug,
+              request_status: 'success',
+              seed: data.seed ?? null,
+            },
+      );
+      // isNew=true  -> 'new' button  -> always add fresh image
+      // isNew=false -> 'edit/merge'  -> replace the last AI image
+      placeGeneratedImage(data.image_data, !isNew);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error || 'Request failed');
+      setAiDebugInfo({
+        ...localDebug,
+        request_status: 'error',
+        error: message,
+      });
       setAiError('طھط¹ط°ط± طھظˆظ„ظٹط¯ ط§ظ„ط´ط¹ط§ط±! ط±ط¨ظ…ط§ ط­ط¯ط« ط®ط·ط£ ظپظٹ ط§ظ„ط®ط§ط¯ظ….');
     } finally { setIsGenerating(false); }
   };
@@ -1346,6 +1400,7 @@ export default function App() {
               <AiSidebarPanel
                 aiPrompt={aiPrompt}
                 setAiPrompt={setAiPrompt}
+                aiDebugInfo={aiDebugInfo}
                 aiHint={sectionConfig.aiHint}
                 isAiEnabled={isAiEnabled}
                 aiError={normalizeAiErrorMessage(aiError)}

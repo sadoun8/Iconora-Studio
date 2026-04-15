@@ -16,6 +16,27 @@ class ProjectService:
         safe_id = self.manager._sanitize_filename(project_id)
         return Path(self.manager.projects_folder) / f"{safe_id}{self.manager.PROJECT_EXTENSION}"
 
+    def _write_project_file(
+        self,
+        path: Path,
+        *,
+        name: str,
+        version: str,
+        created_at: str,
+        updated_at: str,
+        data: dict,
+    ) -> None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        raw = {
+            "name": name,
+            "version": version,
+            "created": created_at,
+            "modified": updated_at,
+            "data": data,
+        }
+        with open(path, "w", encoding="utf-8") as handle:
+            json.dump(raw, handle, indent=2, ensure_ascii=False)
+
     def list_projects(self) -> list[ProjectSummary]:
         result = self.manager.list_projects()
         if not result.get("success"):
@@ -59,7 +80,11 @@ class ProjectService:
 
     def save_project(self, payload: dict, project_id: str | None = None) -> ProjectDocument:
         current = self.load_project(project_id) if project_id else None
-        project_name = payload["name"]
+        project_name = str(payload["name"]).strip()
+        safe_project_name = self.manager._sanitize_filename(project_name)
+        if not safe_project_name:
+            raise ValueError("Project name is empty or invalid")
+
         created_at = current.created_at if current else now_iso()
         updated_at = now_iso()
         project_data = {
@@ -69,17 +94,31 @@ class ProjectService:
             "editor": payload.get("editor", current.editor if current else {}),
             "export_defaults": payload.get("export_defaults", current.export_defaults if current else {}),
         }
-        result = self.manager.save_project(project_name, project_data)
-        if not result.get("success"):
-            raise ValueError(result.get("message", "Failed to save project"))
-        path = Path(result["path"])
-        with open(path, "r", encoding="utf-8") as handle:
-            raw = json.load(handle)
-        raw["created"] = created_at
-        raw["modified"] = updated_at
-        raw["version"] = payload.get("version", raw.get("version", "1.0"))
-        with open(path, "w", encoding="utf-8") as handle:
-            json.dump(raw, handle, indent=2, ensure_ascii=False)
+        version = payload.get("version", current.version if current else self.manager.PROJECT_VERSION)
+        target_path = self._project_path(project_name)
+        current_path = self._project_path(project_id) if project_id else None
+
+        # Prevent accidental overwrite when a rename targets another existing project.
+        if (
+            current_path is not None
+            and target_path != current_path
+            and target_path.exists()
+        ):
+            raise ValueError(f"Project name already exists: {project_name}")
+
+        self._write_project_file(
+            target_path,
+            name=project_name,
+            version=version,
+            created_at=created_at,
+            updated_at=updated_at,
+            data=project_data,
+        )
+
+        if current_path and current_path != target_path and current_path.exists():
+            current_path.unlink()
+
+        path = target_path
         return self.load_project(path.stem)
 
     def delete_project(self, project_id: str) -> bool:

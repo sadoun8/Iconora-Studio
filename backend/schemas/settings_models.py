@@ -29,3 +29,4 @@ class BootstrapAssetsResponse(BaseModel):
     ornaments: list[dict[str, Any]]
     sizes: dict[str, list[dict[str, Any]]]
     settings: dict[str, Any]
+    ai_hints: dict[str, str] = {}
